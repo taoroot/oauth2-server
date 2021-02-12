@@ -1,0 +1,53 @@
+# https://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+spring:
+  profiles:
+    active: pro
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://127.0.0.1:3306/auth?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+
+security:
+  oauth2:
+    authorization:
+      jwt:
+        key-value: hello_world
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+    org.springframework.boot.autoconfigure: DEBUG
+    cn.flizi: DEBUG
+
+# 图形验证码配置
+captcha:
+  enable: true # 启用
+  base-str: '0123' #  随机字符
+  length: 4  #  长度
+
+# 手机登录配置(腾讯云)
+sms:
+  enable: true # 启用
+  secretId: 'xxxx'
+  secretKey: 'xxxx'
+  appId: 'xxx'
+  sign: 'xxx'
+  templateId: 'xxx'
+
+
+# 社会账号登录
+social:
+  wx-mp: # 微信公众平台
+    key: 'xxx'
+    secret: 'xxx'
+  wx-open: # 微信开放平台
+    key: 'xxx'
+    secret: 'xxxx'

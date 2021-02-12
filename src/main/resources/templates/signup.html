@@ -1,0 +1,231 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>用户注册 - 飞立兹科技</title>
+
+    <style>
+        body {
+            margin: 0;
+        }
+
+        a {
+            text-decoration:none;
+            color: #4D4D4D;
+        }
+
+        input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0px 32px #fff inset; /**通过边框阴影遮挡住背景*/
+            -webkit-text-fill-color: #333; /*自动填充内容的文本颜色*/
+        }
+
+        .Input {
+            -webkit-box-flex: 1;
+            -ms-flex: 1 1;
+            flex: 1 1;
+            padding: 0;
+            overflow: hidden;
+            font-family: inherit;
+            font-size: inherit;
+            font-weight: inherit;
+            background: transparent;
+            resize: none;
+            border: none;
+            border-bottom: 1px solid #ebebeb;
+            outline: none;
+
+            width: 100%;
+            height: 48px;
+            padding: 0;
+            color: #8590a6;
+        }
+
+        .Button {
+            display: inline-block;
+            text-align: center;
+            cursor: pointer;
+            background: none;
+            border-radius: 3px;
+            margin: 0;
+            padding: 0;
+            border: none;
+            font-size: 16px;
+            line-height: 16px;
+            color: #175199;
+
+        }
+
+
+        .Button2 {
+            display: inline-block;
+            text-align: center;
+            cursor: pointer;
+            background: none;
+            border-radius: 3px;
+            margin: 0;
+            padding: 0;
+            border: none;
+            font-size: 16px;
+            line-height: 16px;
+            color:#333;
+            outline: none;
+        }
+
+        .MobileHeader {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: #2BA245;
+            height: 80px;
+            padding: 0;
+        }
+
+        .MobileHeader-title {
+            color: #fff;
+            font-size: 25px;
+        }
+
+        .MobileHeader-subTitle {
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .MobileForm {
+            padding: 20px 20px;
+        }
+
+        .MobileForm-submitButton {
+            width: 100%;
+            height: 40px;
+            margin-top: 32px;
+
+            display: inline-block;
+            padding: 0 16px;
+            font-size: 14px;
+            line-height: 32px;
+            text-align: center;
+            cursor: pointer;
+            background: none;
+            border: 1px solid;
+            border-radius: 3px;
+            color: #fff;
+            font-size: 16px;
+            background-color: #2BA245;
+        }
+
+        .Login-signinTypes {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 16px;
+        }
+
+        .Footer {
+            text-align: center;
+            margin-top: 40px;
+            color:#333;
+        }
+
+
+
+
+
+
+    </style>
+</head>
+
+<body>
+<div id="Mobile">
+    <div class="MobileHeader">
+        <div class="MobileHeader-title">用户注册</div>
+        <div class="MobileHeader-subTitle">飞立兹科技</div>
+    </div>
+    <form class="MobileForm" method="post" action="/signup">
+        <div class="MobileForm-login">
+            <label>
+                <input id="phone" class="Input" name="phone" type="tel" placeholder="输入手机号" value="">
+            </label>
+            <label style="display: flex;">
+                <input class="Input" name="code" type="text" placeholder="输入验证码" value="">
+                <button id="get_code" class="Button2" type="button" onclick="getCode()">获取验证码</button>
+            </label>
+            <label>
+                <input id="password1" oninput="checkPassword(event)" onporpertychange="checkPassword(event)"  class="Input" name="password1" type="password" placeholder="设置登录密码" value="">
+            </label>
+            <label>
+                <input id="password" oninput="checkPassword(event)" onporpertychange="checkPassword(event)"  class="Input" name="password" type="password" placeholder="确认登录密码" value="">
+            </label>
+            <div class="alert alert-success" role="alert">
+                <p id="tips" style="color: #ff0000"></p>
+            </div>
+            <div class="alert alert-success" role="alert" th:if="${error != null}">
+                <p style="color: #ff0000" th:text="${error}">参数错误</p>
+            </div>
+            <button id="submitButton" class="MobileForm-submitButton" type="submit">提交</button>
+            <div class="Login-signinTypes">
+                <a href="login" class="Button">前往登录</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="Footer"><a href="https://beian.miit.gov.cn/">浙ICP备19015501号</a></div>
+</body>
+
+<script>
+    function checkPassword() {
+        var password1 = document.getElementById("password1").value
+        var password = document.getElementById("password").value
+        console.log(password, password1)
+        if (password1 !== password || !password) {
+            document.getElementById("tips").innerHTML = '密码不一致'
+            return false
+        } else {
+            document.getElementById("tips").innerHTML = ''
+            return true
+        }
+    }
+
+
+    function getCode() {
+        var phone = document.getElementById("phone").value
+        if(!(/^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/.test(phone))){
+            alert("手机号格式错误")
+            return
+        }
+
+        document.getElementById("get_code").disabled = true
+        var total = 60
+        var timer = setInterval(()=> {
+            document.getElementById("get_code").innerHTML = `已发送(${total}s)`
+            total--;
+            if(total < 1) {
+                document.getElementById("get_code").disabled = false
+                clearInterval(timer)
+                document.getElementById("get_code").innerHTML = `获取验证码`
+            }
+        }, 1000)
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState === 4){
+                if(xhr.status === 200){
+                    console.log(JSON.parse(xhr.responseText))
+                } else{
+                    alert('失败！')
+                }
+            }
+        }
+        xhr.open('POST', '/sms?phone=' + phone);
+        xhr.send();
+
+    }
+</script>
+
+</html>
