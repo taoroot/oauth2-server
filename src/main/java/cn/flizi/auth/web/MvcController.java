@@ -6,7 +6,6 @@ import cn.flizi.auth.mapper.SmsMapper;
 import cn.flizi.auth.mapper.UserMapper;
 import cn.flizi.auth.properties.SocialProperties;
 import cn.flizi.auth.security.AuthUser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -51,10 +50,11 @@ public class MvcController {
     }
 
     @GetMapping(value = "/login")
-    public String login(Model model) {
+    public String login(Model model, @RequestParam(defaultValue = "false") Boolean wx) {
         model.addAttribute("app_name", appName);
         model.addAttribute("wx_mp", socialProperties.getWxMp().getKey());
         model.addAttribute("wx_open", socialProperties.getWxOpen().getKey());
+        model.addAttribute("wx_auto", wx);
         return "login";
     }
 
@@ -107,7 +107,7 @@ public class MvcController {
         }
 
         String password = "{bcrypt}" + new BCryptPasswordEncoder().encode(passwordStr);
-        Sms sms = smsMapper.getSmsByPhone(phone);
+        Sms sms = smsMapper.getCodeByPhone(phone);
 
         if (sms == null || !sms.getCode().equals(code)
                 || new Date().getTime() - sms.getCreateTime().getTime() > 60 * 1000) {

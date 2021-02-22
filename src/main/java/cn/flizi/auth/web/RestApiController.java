@@ -99,7 +99,6 @@ public class RestApiController {
         }
     }
 
-
     /**
      * 发送手机验证码
      *
@@ -115,7 +114,7 @@ public class RestApiController {
             return result;
         }
 
-        Sms sms = smsMapper.getSmsByPhone(phone);
+        Sms sms = smsMapper.getCodeByPhone(phone);
         if (sms != null && new Date().getTime() - sms.getCreateTime().getTime() < 60 * 1000) {
             result.put("code", "FAIL");
             result.put("msg", "发送失败,请稍后重试");

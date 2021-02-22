@@ -15,5 +15,5 @@ public interface SmsMapper {
     void insert(Sms sms);
 
     @Select("select * from sms where phone=#{phone} order by create_time desc limit 1")
-    Sms getSmsByPhone(String phone);
+    Sms getCodeByPhone(String phone);
 }

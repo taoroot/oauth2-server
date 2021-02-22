@@ -136,7 +136,7 @@
         <form class="MobileForm" method="post" action="/login">
             <div class="MobileForm-login">
                 <label>
-                    <input class="Input" name="username" type="text" placeholder="输入手机号或邮箱" value="">
+                    <input class="Input" name="username" type="text" placeholder="输入手机号" value="">
                 </label>
                 <label>
                     <input class="Input" name="password" type="password" placeholder="输入密码" value="">
@@ -197,8 +197,9 @@
 </body>
 
 <script>
-    var wx_mp= '[[${wx_mp}]]';
-    var wx_open= '[[${wx_open}]]';
+    var wx_mp = '[[${wx_mp}]]';
+    var wx_open = '[[${wx_open}]]';
+    var wx_auto = [[${wx_auto}]]
     function refreshCaptcha() {
         var captcha_id = document.getElementById("captcha_id")
         var key = new Date().getTime()
@@ -216,6 +217,9 @@
             window.sessionStorage.setItem("type", "WX_OPEN")
             window.location.href = `https://open.weixin.qq.com/connect/qrconnect?appid=${wx_open}&redirect_uri=${encodeURIComponent(window.location.origin)}%2Fauth-redirect&response_type=code&scope=snsapi_login&state=authorize&connect_redirect=1#wechat_redirect`
         }
+    }
+    if (wx_auto) {
+        wxClick()
     }
 </script>
 
