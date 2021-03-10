@@ -140,12 +140,14 @@ grant_type=social&type={type}&code={code}&scope={scope}
 ```
 
 
-## 获取用户详细信息(scope!=all)
+## 获取用户信息
 
 ```http
 GET /user_base HTTP/1.1
 Authorization: Bearer {access_token}
 ```
+
+scope!=all
 ```json
 {
   "msg": "SUCCESS",
@@ -154,12 +156,7 @@ Authorization: Bearer {access_token}
 }
 ```
 
-## 获取用户详细信息(scope==all)
-
-```http
-GET /user_info HTTP/1.1
-Authorization: Bearer {access_token}
-```
+scope==all
 ```json
 {
   "msg": "SUCCESS",
