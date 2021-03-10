@@ -76,6 +76,11 @@ public class MvcController {
         return "auth-redirect";
     }
 
+    @GetMapping(value = "/weixin-code")
+    public String weixinCode() {
+        return "weixin-code";
+    }
+
 
     @PostMapping(value = "/signup")
     public String signup(@RequestParam Map<String, String> params, Model model) {

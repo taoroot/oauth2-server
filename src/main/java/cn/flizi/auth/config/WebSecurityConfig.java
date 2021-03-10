@@ -59,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login").and()
                 .authorizeRequests()
-                .antMatchers("/login", "/social", "/reset", "/captcha", "/signup", "/sms", "/auth-redirect").permitAll()
+                .antMatchers("/login", "/social", "/reset", "/captcha", "/signup", "/sms", "/auth-redirect", "/weixin-code").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(captchaValidationFilter, UsernamePasswordAuthenticationFilter.class)
