@@ -31,6 +31,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 @RestController
 public class RestApiController {
@@ -39,6 +41,8 @@ public class RestApiController {
     private final CaptchaService captchaService;
     private final CaptchaProperties captchaProperties;
     private final SmsProperties smsProperties;
+
+    private final static Executor executorPool = Executors.newSingleThreadExecutor();
 
     public RestApiController(SmsMapper smsMapper, UserMapper userMapper, CaptchaService captchaService, CaptchaProperties captchaProperties, SmsProperties smsProperties) {
         this.smsMapper = smsMapper;
@@ -121,11 +125,12 @@ public class RestApiController {
             return result;
         }
         sms = new Sms();
-        sms.setCode(String.format("%04d", new Random().nextInt(10000)));
+        String code = String.format("%04d", new Random().nextInt(10000));
+        sms.setCode(code);
         sms.setPhone(phone);
         smsMapper.insert(sms);
-        sendSms(phone, "+86", sms.getCode());
-        result.put("code", "FAIL");
+        executorPool.execute(() -> sendSms(phone, "+86", code));
+        result.put("code", "SUCCESS");
         result.put("msg", "发送成功");
         return result;
     }
