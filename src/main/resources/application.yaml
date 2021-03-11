@@ -42,6 +42,8 @@ sms:
   sign: 'xxx'
   templateId: 'xxx'
 
+dingtalk:
+  access_token: xxx
 
 # 社会账号登录
 social:

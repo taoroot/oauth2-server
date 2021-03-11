@@ -6,6 +6,7 @@ import cn.flizi.auth.mapper.SmsMapper;
 import cn.flizi.auth.mapper.UserMapper;
 import cn.flizi.auth.properties.SocialProperties;
 import cn.flizi.auth.security.AuthUser;
+import cn.flizi.auth.util.DingTalkUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -126,6 +127,7 @@ public class MvcController {
             user.setPhone(phone);
             user.setPassword(password);
             userMapper.insert(user);
+            DingTalkUtil.sendTextAsync("新用户[SMS]注册: " + user.getUserId());
         } else {
             userMapper.updatePassword(phone, password);
         }

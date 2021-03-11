@@ -4,6 +4,7 @@ import cn.flizi.auth.properties.CaptchaProperties;
 import cn.flizi.auth.properties.SmsProperties;
 import cn.flizi.auth.properties.SocialProperties;
 import cn.flizi.auth.security.social.SocialAuthenticationProvider;
+import cn.flizi.auth.util.DingTalkUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,6 @@ public class AuthApplication implements CommandLineRunner {
         log.info(captchaProperties);
         log.info(socialProperties);
         log.info(smsProperties);
+        DingTalkUtil.sendTextAsync(AuthApplication.class.getSimpleName() + ":服务启动成功");
     }
 }
