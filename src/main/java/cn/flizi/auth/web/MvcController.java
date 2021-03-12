@@ -139,7 +139,7 @@ public class MvcController {
         model.addAttribute("wx_mp", socialProperties.getWxMp().getKey());
         model.addAttribute("wx_open", socialProperties.getWxOpen().getKey());
         model.addAttribute("wx_auto", wx);
-        return "redirect:bind";
+        return "bind";
     }
 
 
