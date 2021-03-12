@@ -42,11 +42,10 @@ public class MvcController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         AuthUser principal = (AuthUser) authentication.getPrincipal();
         User user = userMapper.loadUserByUserId(principal.getUsername());
-        model.addAttribute("phone", user.getPhone());
-        model.addAttribute("email", user.getEmail());
-        model.addAttribute("name", user.getUserId());
-        model.addAttribute("wxOpenid", user.getWxOpenid());
-        model.addAttribute("wxUnionid", user.getWxUnionid());
+        model.addAttribute("phone", "手机号:" + user.getPhone());
+        model.addAttribute("name", "用户ID:" + user.getUserId());
+        model.addAttribute("wxOpenid", "微信公众平台:" + user.getWxOpenid());
+        model.addAttribute("wxUnionid", "微信开放平台::" + user.getWxUnionid());
         return "index";
     }
 
@@ -81,7 +80,6 @@ public class MvcController {
     public String weixinCode() {
         return "weixin-code";
     }
-
 
     @PostMapping(value = "/signup")
     public String signup(@RequestParam Map<String, String> params, Model model) {
@@ -132,5 +130,59 @@ public class MvcController {
             userMapper.updatePassword(phone, password);
         }
         return "redirect:login?signup";
+    }
+
+
+    @GetMapping(value = "/bind")
+    public String bindSmsPost(@RequestParam(defaultValue = "false") Boolean wx, Model model) {
+        model.addAttribute("app_name", appName);
+        model.addAttribute("wx_mp", socialProperties.getWxMp().getKey());
+        model.addAttribute("wx_open", socialProperties.getWxOpen().getKey());
+        model.addAttribute("wx_auto", wx);
+        return "redirect:bind";
+    }
+
+
+    @GetMapping(value = "/bind-wx")
+    public String bindWx(Model model) {
+        return "redirect:/";
+    }
+
+
+    @PostMapping(value = "/bind-sms")
+    public String bind(@RequestParam Map<String, String> params, Model model) {
+        String phone = params.get("phone");
+        String code = params.get("code");
+
+        if (!StringUtils.hasLength(phone)) {
+            model.addAttribute("error", "手机号错误");
+            return "bind";
+        }
+
+        if (!StringUtils.hasLength(code)) {
+            model.addAttribute("error", "验证码错误");
+            return "bind";
+        }
+
+        User user = userMapper.loadUserByColumn("phone", phone);
+
+        if (user != null) {
+            model.addAttribute("error", "手机号已被绑定");
+            return "bind";
+        }
+
+        Sms sms = smsMapper.getCodeByPhone(phone);
+
+        if (sms == null || !sms.getCode().equals(code)
+                || new Date().getTime() - sms.getCreateTime().getTime() > 60 * 1000) {
+            model.addAttribute("error", "验证码错误");
+            return "bind";
+        }
+
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        userMapper.updatePhone(userId, phone);
+
+        return "redirect:/";
     }
 }
