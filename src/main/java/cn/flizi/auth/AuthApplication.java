@@ -32,6 +32,5 @@ public class AuthApplication implements CommandLineRunner {
         log.info(captchaProperties);
         log.info(socialProperties);
         log.info(smsProperties);
-        DingTalkUtil.sendTextAsync(AuthApplication.class.getSimpleName() + ":服务启动成功");
     }
 }

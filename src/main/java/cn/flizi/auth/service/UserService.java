@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
@@ -64,6 +65,9 @@ public class UserService implements UserDetailsService, SocialDetailsService {
             Map<String, String> map = wxMpHandler(code);
             String openId = map.get("openid");
             String unionId = map.get("unionid");
+            if (unionId == null) {
+                return null;
+            }
             user = userMapper.loadUserByColumn("wx_unionid", unionId);
             if (user == null) {
                 user = new User();
@@ -71,6 +75,8 @@ public class UserService implements UserDetailsService, SocialDetailsService {
                 user.setWxUnionid(unionId);
                 userMapper.insert(user);
                 DingTalkUtil.sendTextAsync("新用户[WX_MP]注册: " + user.getUserId());
+            } else if (!StringUtils.hasLength(user.getWxOpenid())) {
+                userMapper.updateWxOpenId(user.getUserId(), openId);
             }
         }
 
