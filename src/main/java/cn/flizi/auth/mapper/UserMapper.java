@@ -25,12 +25,11 @@ public interface UserMapper {
     void updatePassword(@Param("phone") String phone, @Param("password") String password);
 
     @Update("update user set phone=#{phone} where `user_id`=#{userId}")
-    void updatePhone( @Param("userId") String userId, @Param("phone") String phone);
+    void updatePhone(@Param("userId") String userId, @Param("phone") String phone);
 
     @Update("update user set wx_openid=#{openid} where `user_id`=#{userId}")
-    void updateWxOpenId( @Param("userId") String userId, @Param("openid") String openid);
-
+    void updateWxOpenId(@Param("userId") String userId, @Param("openid") String openid);
 
     @Update("update user set wx_unionid=#{unionid} where `user_id`=#{userId}")
-    void updateWxUnionId( @Param("userId") String userId, @Param("unionid") String unionid);
+    void updateWxUnionId(@Param("userId") String userId, @Param("unionid") String unionid);
 }

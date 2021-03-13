@@ -6,6 +6,7 @@ import cn.flizi.auth.mapper.SmsMapper;
 import cn.flizi.auth.mapper.UserMapper;
 import cn.flizi.auth.properties.SocialProperties;
 import cn.flizi.auth.security.AuthUser;
+import cn.flizi.auth.service.UserService;
 import cn.flizi.auth.util.DingTalkUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -26,16 +27,17 @@ public class MvcController {
     private final UserMapper userMapper;
     private final SmsMapper smsMapper;
     private final SocialProperties socialProperties;
+    private final UserService userService;
 
     @Value("${spring.application.name}")
     private String appName;
 
-    public MvcController(UserMapper userMapper, SmsMapper smsMapper, SocialProperties socialProperties) {
+    public MvcController(UserMapper userMapper, SmsMapper smsMapper, SocialProperties socialProperties, UserService userService) {
         this.userMapper = userMapper;
         this.smsMapper = smsMapper;
         this.socialProperties = socialProperties;
+        this.userService = userService;
     }
-
 
     @GetMapping(value = "/")
     public String index(Model model) {
@@ -66,21 +68,9 @@ public class MvcController {
         return "signup";
     }
 
-    @GetMapping(value = "/reset")
-    public String reset() {
-        return "reset";
-    }
-
-    @GetMapping(value = "/auth-redirect")
-    public String authRedirect() {
-        return "auth-redirect";
-    }
-
-    @GetMapping(value = "/weixin-code")
-    public String weixinCode() {
-        return "weixin-code";
-    }
-
+    /**
+     * 表单提交-进入注册界面
+     */
     @PostMapping(value = "/signup")
     public String signup(@RequestParam Map<String, String> params, Model model) {
         String phone = params.get("phone");
@@ -132,7 +122,9 @@ public class MvcController {
         return "redirect:login?signup";
     }
 
-
+    /**
+     * 进入绑定界面
+     */
     @GetMapping(value = "/bind")
     public String bindSmsPost(@RequestParam(defaultValue = "false") Boolean wx, Model model) {
         model.addAttribute("app_name", appName);
@@ -142,13 +134,57 @@ public class MvcController {
         return "bind";
     }
 
+    /**
+     * 微信绑定回调
+     */
+    @GetMapping(value = "/bind-wx-mp")
+    public String bindWxMp(@RequestParam Map<String, String> params, Model model) {
+        String code = params.get("code");
+        if (!StringUtils.hasLength(code)) {
+            model.addAttribute("error", "参数错误");
+            return "redirect:/";
+        }
 
-    @GetMapping(value = "/bind-wx")
-    public String bindWx(Model model) {
+        String unionId = userService.wxOpenHandler(code);
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        if (!StringUtils.hasLength(unionId)) {
+            model.addAttribute("error", "参数错误");
+            return "bind";
+        }
+
+        userMapper.updateWxUnionId(userId, unionId);
+
         return "redirect:/";
     }
 
+    /**
+     * 微信绑定回调
+     */
+    @GetMapping(value = "/bind-wx-open")
+    public String bindWxOpen(@RequestParam Map<String, String> params, Model model) {
+        String code = params.get("code");
+        if (!StringUtils.hasLength(code)) {
+            model.addAttribute("error", "参数错误");
+            return "redirect:/";
+        }
 
+        String unionId = userService.wxOpenHandler(code);
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        if (!StringUtils.hasLength(unionId)) {
+            model.addAttribute("error", "参数错误");
+            return "bind";
+        }
+
+        userMapper.updateWxUnionId(userId, unionId);
+
+        return "redirect:/";
+    }
+
+    /**
+     * 表单提交, 更换或绑定手机号码
+     */
     @PostMapping(value = "/bind-sms")
     public String bind(@RequestParam Map<String, String> params, Model model) {
         String phone = params.get("phone");
@@ -184,5 +220,23 @@ public class MvcController {
         userMapper.updatePhone(userId, phone);
 
         return "redirect:/";
+    }
+
+    @GetMapping(value = "/reset")
+    public String reset() {
+        return "reset";
+    }
+
+    @GetMapping(value = "/auth-redirect")
+    public String authRedirect() {
+        return "auth-redirect";
+    }
+
+    /**
+     * 跳转到静态资源  weixin-code.html
+     */
+    @GetMapping(value = "/weixin-code")
+    public String weixinCode() {
+        return "weixin-code";
     }
 }
