@@ -179,16 +179,17 @@ public class MvcController {
             return "redirect:/";
         }
 
-        String unionId = userService.wxOpenHandler(code);
+        Map<String, String> map = userService.wxMpHandler(code);
+        String unionId = map.get("unionid");
+        String openId = map.get("openid");
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
 
         if (!StringUtils.hasLength(unionId)) {
             model.addAttribute("error", "参数错误");
             return "bind";
         }
-
+        userMapper.updateWxOpenId(userId, openId);
         userMapper.updateWxUnionId(userId, unionId);
-
         return "redirect:/";
     }
 
@@ -212,7 +213,6 @@ public class MvcController {
         }
 
         userMapper.updateWxUnionId(userId, unionId);
-
         return "redirect:/";
     }
 
@@ -246,8 +246,7 @@ public class MvcController {
 
         if (sms == null || !sms.getCode().equals(code)
                 || new Date().getTime() - sms.getCreateTime().getTime() > 60 * 1000) {
-            model.addAttribute("error", "验证码错误");
-
+            model.addAttribute("error", "验证码已过期");
             return "bind";
         }
 
