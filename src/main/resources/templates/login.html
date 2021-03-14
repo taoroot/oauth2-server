@@ -8,7 +8,7 @@
     <meta name="renderer" content="webkit">
     <meta name="force-rendering" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>登录 - 飞立兹科技</title>
+    <title th:text="'登录 - ' + ${app_name}">登录 - XXX</title>
     <style>
         body {
             margin: 0;
@@ -131,7 +131,7 @@
     <div id="Mobile">
         <div class="MobileHeader">
             <div class="MobileHeader-title">登录</div>
-            <div class="MobileHeader-subTitle">飞立兹科技</div>
+            <div class="MobileHeader-subTitle" th:text="${app_name}">XXX</div>
         </div>
         <form class="MobileForm" method="post" action="/login">
             <div class="MobileForm-login">
@@ -218,7 +218,7 @@
             window.location.href = `https://open.weixin.qq.com/connect/qrconnect?appid=${wx_open}&redirect_uri=${encodeURIComponent(window.location.origin)}%2Fauth-redirect&response_type=code&scope=snsapi_login&state=authorize&connect_redirect=1#wechat_redirect`
         }
     }
-    if (wx_auto) {
+    if (wx_auto === true) {
         wxClick()
     }
 </script>

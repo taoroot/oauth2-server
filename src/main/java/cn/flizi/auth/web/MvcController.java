@@ -43,6 +43,7 @@ public class MvcController {
     public String index(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userMapper.loadUserByUserId(authentication.getName());
+        model.addAttribute("app_name", appName);
         model.addAttribute("phone", "手机号:" + user.getPhone());
         model.addAttribute("name", "用户ID:" + user.getUserId());
         model.addAttribute("wxOpenid", "微信公众平台:" + user.getWxOpenid());
@@ -91,7 +92,8 @@ public class MvcController {
      * @return
      */
     @GetMapping(value = "/reset")
-    public String reset() {
+    public String reset(Model model) {
+        model.addAttribute("app_name", appName);
         return "reset";
     }
 
@@ -99,7 +101,8 @@ public class MvcController {
      * 微信 OAuth2 回调界面
      */
     @GetMapping(value = "/auth-redirect")
-    public String authRedirect() {
+    public String authRedirect(Model model) {
+        model.addAttribute("app_name", appName);
         return "auth-redirect";
     }
 
@@ -107,7 +110,8 @@ public class MvcController {
      * 复用微信登录
      */
     @GetMapping(value = "/weixin-code")
-    public String weixinCode() {
+    public String weixinCode(Model model) {
+        model.addAttribute("app_name", appName);
         return "weixin-code";
     }
 
@@ -174,6 +178,7 @@ public class MvcController {
     @GetMapping(value = "/bind-wx-mp")
     public String bindWxMp(@RequestParam Map<String, String> params, Model model) {
         String code = params.get("code");
+        model.addAttribute("app_name", appName);
         if (!StringUtils.hasLength(code)) {
             model.addAttribute("error", "参数错误");
             return "redirect:/";
@@ -198,6 +203,7 @@ public class MvcController {
      */
     @GetMapping(value = "/bind-wx-open")
     public String bindWxOpen(@RequestParam Map<String, String> params, Model model) {
+        model.addAttribute("app_name", appName);
         String code = params.get("code");
         if (!StringUtils.hasLength(code)) {
             model.addAttribute("error", "参数错误");
@@ -221,6 +227,7 @@ public class MvcController {
      */
     @PostMapping(value = "/bind-sms")
     public String bindSms(@RequestParam Map<String, String> params, Model model) {
+        model.addAttribute("app_name", appName);
         String phone = params.get("phone");
         String code = params.get("code");
         model.addAttribute("wx_auto", false);

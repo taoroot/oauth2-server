@@ -8,7 +8,7 @@
     <meta name="renderer" content="webkit">
     <meta name="force-rendering" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>登录成功 - 飞立兹科技</title>
+    <title th:text="'首页 - ' + ${app_name}">首页 - XXX</title>
     <style>
         body {
             margin: 0;
@@ -150,8 +150,8 @@
 <body>
 <div id="Mobile">
     <div class="MobileHeader">
-        <div class="MobileHeader-title">登录成功</div>
-        <div class="MobileHeader-subTitle">飞立兹科技</div>
+        <div class="MobileHeader-title">首页</div>
+        <div class="MobileHeader-subTitle" th:text="${app_name}">XXX</div>
     </div>
     <form class="MobileForm">
         <div class="MobileForm-login">

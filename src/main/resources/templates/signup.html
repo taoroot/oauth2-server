@@ -8,7 +8,7 @@
     <meta name="renderer" content="webkit">
     <meta name="force-rendering" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>用户注册 - 飞立兹科技</title>
+    <title th:text="'用户注册 - ' + ${app_name}">用户注册 - XXX</title>
 
     <style>
         body {
@@ -145,7 +145,7 @@
 <div id="Mobile">
     <div class="MobileHeader">
         <div class="MobileHeader-title">用户注册</div>
-        <div class="MobileHeader-subTitle">飞立兹科技</div>
+        <div class="MobileHeader-subTitle" th:text="${app_name}">XXX</div>
     </div>
     <form class="MobileForm" method="post" action="/signup">
         <div class="MobileForm-login">
