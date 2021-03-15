@@ -6,7 +6,6 @@ import cn.flizi.auth.mapper.SmsMapper;
 import cn.flizi.auth.mapper.UserMapper;
 import cn.flizi.auth.properties.SocialProperties;
 import cn.flizi.auth.service.UserService;
-import cn.flizi.auth.util.DingTalkUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -40,7 +39,7 @@ public class MvcController {
      * 首页
      */
     @GetMapping(value = "/")
-    public String index(Model model) {
+    public String index(Model model, @RequestParam(defaultValue = "false") Boolean sms) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userMapper.loadUserByUserId(authentication.getName());
         model.addAttribute("app_name", appName);
@@ -163,14 +162,12 @@ public class MvcController {
             user.setPhone(phone);
             user.setPassword(password);
             userMapper.insert(user);
-            DingTalkUtil.sendTextAsync("新用户[SMS]注册: " + user.getUserId());
         } else {
             userMapper.updatePassword(phone, password);
         }
 
         return "redirect:login?signup";
     }
-
 
     /**
      * 微信绑定

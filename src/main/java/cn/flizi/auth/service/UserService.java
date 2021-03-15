@@ -7,7 +7,6 @@ import cn.flizi.auth.mapper.UserMapper;
 import cn.flizi.auth.properties.SocialProperties;
 import cn.flizi.auth.security.AuthUser;
 import cn.flizi.auth.security.social.SocialDetailsService;
-import cn.flizi.auth.util.DingTalkUtil;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -74,7 +73,6 @@ public class UserService implements UserDetailsService, SocialDetailsService {
                 user.setWxOpenid(openId);
                 user.setWxUnionid(unionId);
                 userMapper.insert(user);
-                DingTalkUtil.sendTextAsync("新用户[WX_MP]注册: " + user.getUserId());
             } else if (!StringUtils.hasLength(user.getWxOpenid())) {
                 userMapper.updateWxOpenId(user.getUserId(), openId);
             }
@@ -88,7 +86,6 @@ public class UserService implements UserDetailsService, SocialDetailsService {
                 user = new User();
                 user.setWxUnionid(unionId);
                 userMapper.insert(user);
-                DingTalkUtil.sendTextAsync("新用户[WX_OPEN]注册: " + user.getUserId());
             } else if (user.getWxOpenid() != null) {
                 userMapper.updateWxOpenId(user.getUserId(), user.getWxOpenid());
             }
