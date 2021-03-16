@@ -133,7 +133,7 @@
 
             <ul class="list-group">
                 <li class="list-group-item" th:each="scope : ${scopes}">
-                  <input type="hidden" th:name="${scope}" value="true"/>
+                  <input type="hidden" name="user_oauth_approval" value="true"/>
                   <input type="checkbox" disabled checked="checked" /><lable th:text="${scope}"></lable>
                 </li>
             </ul>
