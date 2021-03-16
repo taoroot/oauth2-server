@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.provider.AuthorizationRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.Map;
 
@@ -94,6 +97,21 @@ public class MvcController {
     public String reset(Model model) {
         model.addAttribute("app_name", appName);
         return "reset";
+    }
+
+    /**
+     * 授权页面
+     */
+    @GetMapping("/oauth/confirm_access")
+    public String confirm(HttpServletRequest request, HttpSession session, Model model) {
+        AuthorizationRequest authorizationRequest = (AuthorizationRequest) session.getAttribute("authorizationRequest");
+        if (authorizationRequest != null) {
+            model.addAttribute("client_id", authorizationRequest.getClientId());
+            model.addAttribute("scopes", authorizationRequest.getScope());
+        }
+        // 授权访问
+        model.addAttribute("app_name", appName);
+        return "confirm_access";
     }
 
     /**
