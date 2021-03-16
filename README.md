@@ -1,9 +1,18 @@
 # 基于 Spring & Mybatis 的统一账号管理平台
 
+技术栈:
+
+- Spring Boot
+- Spring Security
+- Spring Security OAuth2
+- Mybatis
+
 环境依赖:
 
 - JRE1.8
 - Mysql5.7
+
+QQ交流群: 693398562
 
 启动流程:
 
