@@ -1,4 +1,7 @@
-# 基于 Spring & Mybatis 的统一账号管理平台
+# 基于 Spring Security OAuth 的统一账号管理平台
+
+![preview](./doc/pic/preview.png)
+![confirm_access](./doc/pic/confirm_access.png)
 
 技术栈:
 
@@ -181,7 +184,3 @@ scope==all
   "email": "xxxx"
 }
 ```
-
-
-![preview](./doc/pic/preview.png)
-![confirm_access](./doc/pic/confirm_access.png)
