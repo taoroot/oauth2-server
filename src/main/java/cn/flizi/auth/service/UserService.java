@@ -130,38 +130,13 @@ public class UserService implements UserDetailsService, SocialDetailsService {
                 code);
         Map<String, Object> map = getStringObjectMap(uri);
         String openId = (String) map.get("openid");
-
-        String token = getToken();
-        uri = String.format("https://api.weixin.qq.com/cgi-bin/user/info?openid=%s&lang=zh_CN&access_token=%s",
-                openId,
-                token);
-        map = getStringObjectMap(uri);
-
-        Map<String, String> result = new HashMap<>();
         String unionId = (String) map.get("unionid");
 
+        Map<String, String> result = new HashMap<>();
         result.put("openid", openId);
         result.put("unionid", unionId);
         return result;
     }
-
-    private static String token = null;
-    private static Long oldDate = null;
-    public static final long HOUR = 3500 * 1000 * 2;
-
-    private String getToken() {
-        long now = new Date().getTime();
-        if (oldDate == null || now - oldDate > HOUR) {
-            String uri = String.format("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s",
-                    socialProperties.getWxMp().getKey(),
-                    socialProperties.getWxMp().getSecret());
-            Map<String, Object> stringObjectMap = getStringObjectMap(uri);
-            token = (String) stringObjectMap.get("access_token");
-            oldDate = now;
-        }
-        return token;
-    }
-
 
     public Map<String, Object> getStringObjectMap(String url) {
         RestTemplate restTemplate = new RestTemplate();

@@ -114,7 +114,7 @@
         var isWx = ua.match(/MicroMessenger/i)=="micromessenger"
         if (isWx) {
             window.sessionStorage.setItem("type", "WX_MP")
-            window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wx_mp}&redirect_uri=${encodeURIComponent(window.location.origin)}%2Fauth-redirect&response_type=code&scope=snsapi_base&state=authorize&connect_redirect=1#wechat_redirect`
+            window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wx_mp}&redirect_uri=${encodeURIComponent(window.location.origin)}%2Fauth-redirect&response_type=code&scope=snsapi_userinfo&state=authorize&connect_redirect=1#wechat_redirect`
         } else {
             window.sessionStorage.setItem("type", "WX_OPEN")
             window.location.href = `https://open.weixin.qq.com/connect/qrconnect?appid=${wx_open}&redirect_uri=${encodeURIComponent(window.location.origin)}%2Fauth-redirect&response_type=code&scope=snsapi_login&state=authorize&connect_redirect=1#wechat_redirect`
