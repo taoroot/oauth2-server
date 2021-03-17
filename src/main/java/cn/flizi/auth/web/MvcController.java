@@ -35,8 +35,11 @@ public class MvcController {
     @Autowired
     private UserService userService;
 
-    @Value("${spring.application.name}")
+    @Value("${baseinfo.title}")
     private String appName;
+
+    @Value("${baseinfo.beian}")
+    private String beian;
 
     /**
      * 首页
@@ -46,10 +49,15 @@ public class MvcController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userMapper.loadUserByUserId(authentication.getName());
         model.addAttribute("app_name", appName);
-        model.addAttribute("phone", "手机号:" + user.getPhone());
-        model.addAttribute("name", "用户ID:" + user.getUserId());
-        model.addAttribute("wxOpenid", "微信公众平台:" + user.getWxOpenid());
-        model.addAttribute("wxUnionid", "微信开放平台:" + user.getWxUnionid());
+        model.addAttribute("beian", beian);
+
+        model.addAttribute("phone", "手机号: " + user.getPhone());
+        model.addAttribute("name", "用户ID: " + user.getUserId());
+        if (StringUtils.hasLength(user.getWxOpenid()) || StringUtils.hasLength(user.getWxUnionid())) {
+            model.addAttribute("wx", "微信: 已绑定");
+        } else {
+            model.addAttribute("wx", "微信: 未绑定" );
+        }
         return "index";
     }
 
@@ -59,6 +67,7 @@ public class MvcController {
     @GetMapping(value = "/login")
     public String login(Model model, @RequestParam(defaultValue = "false") Boolean wx) {
         model.addAttribute("app_name", appName);
+        model.addAttribute("beian", beian);
         model.addAttribute("wx_mp", socialProperties.getWxMp().getKey());
         model.addAttribute("wx_open", socialProperties.getWxOpen().getKey());
         model.addAttribute("wx_auto", wx);
@@ -71,6 +80,7 @@ public class MvcController {
     @GetMapping(value = "/signup")
     public String signup(Model model) {
         model.addAttribute("app_name", appName);
+        model.addAttribute("beian", beian);
         model.addAttribute("wx_mp", socialProperties.getWxMp().getKey());
         model.addAttribute("wx_open", socialProperties.getWxOpen().getKey());
         return "signup";
@@ -82,6 +92,7 @@ public class MvcController {
     @GetMapping(value = "/bind")
     public String bindSmsPost(@RequestParam(defaultValue = "false") Boolean wx, Model model) {
         model.addAttribute("app_name", appName);
+        model.addAttribute("beian", beian);
         model.addAttribute("wx_mp", socialProperties.getWxMp().getKey());
         model.addAttribute("wx_open", socialProperties.getWxOpen().getKey());
         model.addAttribute("wx_auto", wx);
@@ -96,6 +107,7 @@ public class MvcController {
     @GetMapping(value = "/reset")
     public String reset(Model model) {
         model.addAttribute("app_name", appName);
+        model.addAttribute("beian", beian);
         return "reset";
     }
 
@@ -111,6 +123,7 @@ public class MvcController {
         }
         // 授权访问
         model.addAttribute("app_name", appName);
+        model.addAttribute("beian", beian);
         return "confirm_access";
     }
 
@@ -120,6 +133,7 @@ public class MvcController {
     @GetMapping(value = "/auth-redirect")
     public String authRedirect(Model model) {
         model.addAttribute("app_name", appName);
+        model.addAttribute("beian", beian);
         return "auth-redirect";
     }
 
@@ -129,6 +143,7 @@ public class MvcController {
     @GetMapping(value = "/weixin-code")
     public String weixinCode(Model model) {
         model.addAttribute("app_name", appName);
+        model.addAttribute("beian", beian);
         return "weixin-code";
     }
 
@@ -142,6 +157,7 @@ public class MvcController {
         String passwordStr = params.get("password");
         String passwordStr1 = params.get("password1");
         model.addAttribute("app_name", appName);
+        model.addAttribute("beian", beian);
         model.addAttribute("wx_mp", socialProperties.getWxMp().getKey());
         model.addAttribute("wx_open", socialProperties.getWxOpen().getKey());
 
@@ -194,6 +210,7 @@ public class MvcController {
     public String bindWxMp(@RequestParam Map<String, String> params, Model model) {
         String code = params.get("code");
         model.addAttribute("app_name", appName);
+        model.addAttribute("beian", beian);
         if (!StringUtils.hasLength(code)) {
             model.addAttribute("error", "参数错误");
             return "redirect:/";
@@ -219,6 +236,7 @@ public class MvcController {
     @GetMapping(value = "/bind-wx-open")
     public String bindWxOpen(@RequestParam Map<String, String> params, Model model) {
         model.addAttribute("app_name", appName);
+        model.addAttribute("beian", beian);
         String code = params.get("code");
         if (!StringUtils.hasLength(code)) {
             model.addAttribute("error", "参数错误");
@@ -243,6 +261,7 @@ public class MvcController {
     @PostMapping(value = "/bind-sms")
     public String bindSms(@RequestParam Map<String, String> params, Model model) {
         model.addAttribute("app_name", appName);
+        model.addAttribute("beian", beian);
         String phone = params.get("phone");
         String code = params.get("code");
         model.addAttribute("wx_auto", false);

@@ -12,7 +12,7 @@
 - JRE1.8
 - Mysql5.7
 
-QQ交流群: 693398562
+
 
 启动流程:
 
@@ -62,6 +62,14 @@ sms:
   appId: 'xxx'
   sign: 'xxx'
   templateId: 'xxx'
+```
+
+- 配置页面
+
+```yaml
+baseinfo:
+  title: 浙江xxxx科技 # 标题
+  beian: 浙ICP备xxxx号 # 备案号
 ```
 
 # 编译 & 部署
@@ -173,3 +181,6 @@ scope==all
   "email": "xxxx"
 }
 ```
+
+
+![preview](./doc/pic/preview.png)

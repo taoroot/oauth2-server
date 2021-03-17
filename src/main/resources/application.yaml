@@ -27,6 +27,11 @@ logging:
     org.springframework.boot.autoconfigure: DEBUG
     cn.flizi: DEBUG
 
+baseinfo:
+  title: 浙江xxxx科技
+  beian: 浙ICP备xxxx号
+
+
 # 图形验证码配置
 captcha:
   enable: true # 启用

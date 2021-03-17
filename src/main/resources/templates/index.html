@@ -8,172 +8,44 @@
     <meta name="renderer" content="webkit">
     <meta name="force-rendering" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="../public/base.css">
     <title th:text="'首页 - ' + ${app_name}">首页 - XXX</title>
     <style>
-        body {
-            margin: 0;
-        }
-
-        a {
-            text-decoration: none;
-            color: #4D4D4D;
-        }
-
-        input:-webkit-autofill {
-            -webkit-box-shadow: 0 0 0px 32px #fff inset;
-            /**通过边框阴影遮挡住背景*/
-            -webkit-text-fill-color: #333;
-            /*自动填充内容的文本颜色*/
-        }
-
-        .Input {
-            -webkit-box-flex: 1;
-            -ms-flex: 1 1;
-            flex: 1 1;
-            padding: 0;
-            overflow: hidden;
-            font-family: inherit;
-            font-size: inherit;
-            font-weight: inherit;
-            background: transparent;
-            resize: none;
-            border: none;
-            border-bottom: 1px solid #ebebeb;
-            outline: none;
-
-            width: 100%;
-            height: 48px;
-            padding: 0;
-            color: #8590a6;
-        }
-
-        .Button {
-            display: inline-block;
-            text-align: center;
-            cursor: pointer;
-            background: none;
-            border-radius: 3px;
-            margin: 0;
-            padding: 0;
-            border: none;
-            font-size: 16px;
-            line-height: 16px;
-            color: #175199;
-
-        }
-
-
         .Button2 {
-            display: inline-block;
-            text-align: center;
-            cursor: pointer;
-            background: none;
-            border-radius: 3px;
-            margin: 0;
-            padding: 0;
-            border: none;
-            font-size: 16px;
-            line-height: 16px;
             color:#333;
             outline: none;
-        }
-
-        .MobileHeader {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            background: #06f;
-            height: 80px;
-            padding: 0;
-        }
-
-        .MobileHeader-title {
-            color: #fff;
-            font-size: 25px;
-        }
-
-        .MobileHeader-subTitle {
-            color: #fff;
-            font-size: 16px;
-        }
-
-        .MobileForm {
-            padding: 20px 20px;
-        }
-
-        .MobileForm-submitButton {
-            width: 100%;
-            height: 40px;
-            margin-top: 32px;
-
-            display: inline-block;
-            padding: 0 16px;
-            font-size: 14px;
-            line-height: 32px;
-            text-align: center;
-            cursor: pointer;
-            background: none;
-            border: 1px solid;
-            border-radius: 3px;
-            color: #fff;
-            font-size: 16px;
-            background-color: red;
-        }
-
-        .Login-signinTypes {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px 16px;
-            border-bottom: 1px solid #ebebeb;
-        }
-
-        .Social {
-            margin-top: 60px;
-            width: 100%;
-            display: flex;
-        }
-
-        .Footer {
-            text-align: center;
-            margin-top: 60px;
-            color: #333;
         }
     </style>
 </head>
 
 <body>
-<div id="Mobile">
-    <div class="MobileHeader">
-        <div class="MobileHeader-title">首页</div>
-        <div class="MobileHeader-subTitle" th:text="${app_name}">XXX</div>
+<div id="Wrapper">
+    <div class="Header">
+        <div class="Header-title">首页</div>
+        <div class="Header-subTitle" th:text="${app_name}">XXX</div>
     </div>
-    <form class="MobileForm">
-        <div class="MobileForm-login">
-            <label>
+    <form class="Form">
+        <div class="Form-login">
+            <label class="Label">
                 <input th:value="${name}"  value="用户ID:0" class="Input">
             </label>
-            <label style="display: flex;">
+            <label class="Label">
                 <input th:value="${phone}" class="Input" value="手机号:未绑定"  disabled>
-                <button class="Button2" type="button" onclick="bind('sms')">重新绑定</button>
+                <button class="Button Button2" type="button" onclick="bind('sms')">重新绑定</button>
             </label>
-            <label style="display: flex;">
-                <input th:value="${wxOpenid}" class="Input" value="微信公众平台:未绑定" disabled>
-                <button class="Button2" type="button" onclick="bind('wx')">重新绑定</button>
+            <label class="Label">
+                <input th:value="${wx}" class="Input" value="微信公众平台:未绑定" disabled>
+                <button class="Button Button2" type="button" onclick="bind('wx')">重新绑定</button>
             </label>
-            <label style="display: flex;">
-                <input th:value="${wxUnionid}" class="Input" value="微信开放平台:未绑定" disabled>
-                <button class="Button2" type="button" onclick="bind('wx')">重新绑定</button>
-            </label>
-            <button class="MobileForm-submitButton" type="button" onclick="logout()">退出登录</button>
+            <button class="Form-submitButton" type="button" onclick="logout()">退出登录</button>
         </div>
 
 
     </form>
 </div>
 
-<div class="Footer"><a href="https://beian.miit.gov.cn/">浙ICP备19015501号</a></div>
+<div class="Footer"><a href="https://beian.miit.gov.cn/" th:text="${beian}">浙ICP备xxxx号</a></div>
 </body>
 
 <script>
