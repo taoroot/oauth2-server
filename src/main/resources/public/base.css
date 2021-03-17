@@ -89,7 +89,6 @@ input:-webkit-autofill {
 .Form {
     margin-top: 20px;
     padding: 20px 20px;
-    box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1);
 }
 
 .Form-submitButton {
@@ -117,6 +116,9 @@ input:-webkit-autofill {
         margin: 70px auto;
         max-width: 350px;
         padding-bottom: 20px;
+    }
+    .Form {
+        box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1);
     }
 }
 
