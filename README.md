@@ -184,3 +184,4 @@ scope==all
 
 
 ![preview](./doc/pic/preview.png)
+![confirm_access](./doc/pic/confirm_access.png)
