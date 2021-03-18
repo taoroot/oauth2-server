@@ -29,6 +29,7 @@
         <div class="Form-login">
             <label class="Label">
                 <input th:value="${name}"  value="用户ID:0" class="Input">
+                <button class="Button Button2" type="button" onclick="password()">修改密码</button>
             </label>
             <label class="Label">
                 <input th:value="${phone}" class="Input" value="手机号:未绑定"  disabled>
@@ -59,6 +60,10 @@
         } else {
             window.location.href="/bind?wx=false"
         }
+    }
+
+    function password() {
+        window.location.href="/reset"
     }
 
 </script>

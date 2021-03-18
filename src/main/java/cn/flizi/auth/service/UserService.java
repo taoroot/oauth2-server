@@ -17,6 +17,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
@@ -72,6 +73,8 @@ public class UserService implements UserDetailsService, SocialDetailsService {
                 user = new User();
                 user.setWxOpenid(openId);
                 user.setWxUnionid(unionId);
+                user.setPassword("{bcrypt}" + new BCryptPasswordEncoder()
+                        .encode(UUID.randomUUID().toString().replace("_", "")));
                 userMapper.insert(user);
             } else if (!StringUtils.hasLength(user.getWxOpenid())) {
                 userMapper.updateWxOpenId(user.getUserId(), openId);
@@ -85,6 +88,8 @@ public class UserService implements UserDetailsService, SocialDetailsService {
             if (user == null) {
                 user = new User();
                 user.setWxUnionid(unionId);
+                user.setPassword("{bcrypt}" + new BCryptPasswordEncoder()
+                        .encode(UUID.randomUUID().toString().replace("_", "")));
                 userMapper.insert(user);
             } else if (user.getWxOpenid() != null) {
                 userMapper.updateWxOpenId(user.getUserId(), user.getWxOpenid());
