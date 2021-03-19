@@ -52,7 +52,6 @@ public class RestApiController {
         this.smsProperties = smsProperties;
     }
 
-
     @GetMapping(value = "/user_base")
     public HashMap<String, Object> userBase() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

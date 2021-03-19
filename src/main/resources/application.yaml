@@ -25,7 +25,6 @@ logging:
     org.springframework.security: DEBUG
     org.springframework.security.oauth2: DEBUG
     org.springframework.boot.autoconfigure: DEBUG
-    cn.flizi: DEBUG
 
 baseinfo:
   title: 浙江xxxx科技
