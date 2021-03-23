@@ -132,7 +132,6 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
     public TokenEnhancer tokenEnhancer() {
         TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
         List<TokenEnhancer> delegates = new ArrayList<>();
-        delegates.add(jwtAccessTokenConverter());
         delegates.add((accessToken, authentication) -> {
             if (authentication.getPrincipal() instanceof AuthUser) {
                 AuthUser principal = (AuthUser) authentication.getPrincipal();
@@ -142,6 +141,7 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
             }
             return accessToken;
         });
+        delegates.add(jwtAccessTokenConverter());
         enhancerChain.setTokenEnhancers(delegates);
         return enhancerChain;
     }
