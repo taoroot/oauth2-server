@@ -5,6 +5,7 @@
 
 - [项目地址](https://github.com/taoroot/oauth2-server)
 - [Spring Security 过滤器总体架构分析](./doc/filter.md)
+- [Spring OAuth2 前世今生](./doc/history.md)
 
 技术栈:
 

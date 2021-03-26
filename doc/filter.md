@@ -63,7 +63,7 @@ FilterChainProxy 是 Spring Security 提供的一个特殊过滤器，它允许�
 FilterChainProxy 使用 SecurityFilterChain 来确定应该为此请求调用哪个 SpringSecurityFilter。
 SecurityFilterChain 中的 SpringSecurityFilter 通常是 bean，但是它们是通过 FilterChainProxy 注册的，而不是通过 DelegatingFilterProxy。
 
-`tip FilterChainProxy 比直接注册 Servlet 容器或委托 DelegatingFilterProxy 有着更多优势:
+`FilterChainProxy 比直接注册 Servlet 容器或委托 DelegatingFilterProxy 有着更多优势:
 
 首先，它为所有 Spring Security 的 Servlet 支持提供了一个起点。因此，如果您试图对 Spring Security 的 Servlet 支持进行故障排除，那么在 FilterChainProxy 中添加一个调试点是一个很好的起点
 
@@ -80,7 +80,7 @@ SecurityFilterChain 中的 SpringSecurityFilter 通常是 bean，但是它们是
 
 如果请求的URL为/messages/，它将与SecurityFilterChain-0的 /api/** 不匹配，因此 FilterChainProxy 将继续尝试每个 SecurityFilterChain。假设没有其他实例，则将调用与 SecurityFilterChain-n 匹配的 SecurityFilterChain 实例。
 
-`tip 请注意
+`请注意
 SecurityFilterChain-0 只配置了三个 SpringSecurityFilter 实例。但是，SecurityFilterChain-n 配置了四个 SpringSecurityFilter。需要注意的是，每个 SecurityFilterChain 可以是惟一的，并且是隔离配置的。
 事实上，如果应用程序希望 Spring security 忽略某些请求，SecurityFilterChain 可能没有安全过滤器。
 `
@@ -117,7 +117,7 @@ try {
 }
 ```
 
-## tip 内置过滤器
+## 内置过滤器
 
 使用 SecurityFilterChain API 将安全过滤器插入到 FilterChainProxy 中。
 过滤器的顺序很重要。通常没有必要知道 Spring Security 过滤器的顺序。然而，有时知道顺序是有益的
