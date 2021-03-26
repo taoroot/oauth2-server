@@ -3,7 +3,8 @@
 ![preview](./doc/pic/preview.png)
 ![confirm_access](./doc/pic/confirm_access.png)
 
-[项目地址](https://github.com/taoroot/oauth2-server)
+- [项目地址](https://github.com/taoroot/oauth2-server)
+- [Spring Security 过滤器总体架构分析](./doc/filter.md)
 
 技术栈:
 
