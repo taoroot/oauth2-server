@@ -13,8 +13,8 @@
     <artifactId>oauth2-example</artifactId>
 
     <modules>
-        <module>oauth2-client</module>
-        <module>oauth2-resource</module>
-        <module>oauth2-full</module>
+        <module>oauth2-example-client</module>
+        <module>oauth2-example-resource</module>
+        <module>oauth2-example-full</module>
     </modules>
 </project>
