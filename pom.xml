@@ -13,6 +13,7 @@
     <!--模块-->
     <modules>
         <module>oauth2-server</module>
+        <module>oauth2-example</module>
     </modules>
 
     <!--属性-->
