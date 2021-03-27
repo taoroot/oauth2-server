@@ -1,4 +1,4 @@
-import { login, logout, getInfo, loginPhone } from '@/api/login'
+import { login, logout, getInfo, loginPhone, oauth2CodeLogin } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -62,6 +62,18 @@ const actions = {
           reject(error)
         })
       }
+    })
+  },
+
+  oauth2CodeLogin({ commit }, data) {
+    const { code } = data
+    oauth2CodeLogin({ code }).then(response => {
+      const { data } = response
+      commit('SET_TOKEN', data)
+      setToken(data)
+      resolve()
+    }).catch(error => {
+      reject(error)
     })
   },
 

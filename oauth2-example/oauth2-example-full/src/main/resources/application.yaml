@@ -1,5 +1,13 @@
+server:
+  port: 8008
+
+
 security:
   oauth2:
+    client:
+      client_id: xxx
+      client_secret: xxxx
+      tokenInfoUri: 'http://localhost:8080/oauth/token?client_id=%s&client_secret=%s&code=%s&grant_type=authorization_code'
     resource:
       jwt:
         key-value: hello_world

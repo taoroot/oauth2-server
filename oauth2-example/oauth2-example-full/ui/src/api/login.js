@@ -2,15 +2,24 @@ import request from '@/utils/request'
 import { getToken } from '@/utils/auth'
 
 var Authorization = 'BASIC ' + btoa('mall-admin:secret')
+var VUE_APP_OAUTH2_API = process.env.VUE_APP_OAUTH2_API
 
 export function login(data, params) {
   return request({
-    url: '/auth/oauth/token',
+    url: VUE_APP_OAUTH2_API + '/auth/oauth/token',
     method: 'post',
     headers: {
       Authorization: Authorization
     },
     data: data,
+    params: params
+  })
+}
+
+export function oauth2CodeLogin(params) {
+  return request({
+    url: '/token',
+    method: 'post',
     params: params
   })
 }

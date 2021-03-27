@@ -7,9 +7,9 @@
       </div>
 
       <div style="margin-bottom: 20px;" class="tips" @click="loginForm.loginType = !loginForm.loginType">
-        <a :class="{'is-unactive':!loginForm.loginType}">用户名登录</a>
+        <a :class="{'is-unactive':!loginForm.loginType}">密码登录</a>
         |
-        <a :class="{'is-unactive':loginForm.loginType}">手机号登录</a>
+        <a :class="{'is-unactive':loginForm.loginType}">短信登录</a>
       </div>
 
       <el-form-item v-show="loginForm.loginType" prop="username">
@@ -178,12 +178,15 @@ export default {
     },
     refreshCode() {
       this.loginForm.imageKey = Math.random().toString(36).substr(2)
-      // this.codeUrl = process.env.VUE_APP_BASE_API + 'code/image/' + this.loginForm.imageKey
-      this.codeUrl = 'http://auth.flizi.cn/captcha?key=' + this.loginForm.imageKey
+      this.codeUrl = process.env.VUE_APP_OAUTH2_API + 'captcha?key=' + this.loginForm.imageKey
     },
     oauth2Button(thirdpart, wdith) {
-      const redirect_uri = encodeURIComponent(window.location.origin + '/#/auth-redirect')
-      var url = process.env.VUE_APP_BASE_API + 'oauth2/authorization/' + thirdpart + '?redirect_uri=' + redirect_uri
+      const redirect_uri = encodeURIComponent(window.location.origin + '/oauth2-callback.html')
+      const client_id = 'git'
+      const response_type = "code"
+      const scope = 'all'
+      const state = "1"
+      var url = process.env.VUE_APP_OAUTH2_API + `oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&scope=${scope}&state=${state}`
       openWindow(url, thirdpart, wdith, 540)
     },
     handleLogin() {
@@ -203,9 +206,12 @@ export default {
       })
     },
     afterQRScan(e) {
-      if (e.key === 'x-admin-oauth-code') {
-        var token = e.newValue
-        this.$store.dispatch('user/saveToken', token)
+      if (e.key === 'x-admin-oauth2-code') {
+        var code = e.newValue
+        const loginForm = {
+          code: code
+        }
+        this.$store.dispatch('user/oauth2CodeLogin', loginForm)
         this.$router.push({ path: this.redirect || '/' })
       }
     }
