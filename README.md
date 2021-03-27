@@ -89,7 +89,5 @@ baseinfo:
 
 # 编译 & 部署
 ```shell
-mvn package
-java -Dloader.path=./lib -jar auth-0.0.1.jar
+mvn package && java -jar auth-0.0.1.jar
 ```
-
