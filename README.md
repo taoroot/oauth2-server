@@ -1,7 +1,15 @@
 # 基于 Spring Security OAuth 的统一账号管理平台
 
+# 功能
+
+- OAuth2 密码登录,添加图形验证码 (开发完成)
+- OAuth2 授权码登录 (开发完成)
+- OAuth2 刷新TOKEN (开发完成)
+- 微信登录 (开发完成)
+- 短信登录 (开发完成)
+
+
 ![preview](./doc/pic/preview.png)
-![confirm_access](./doc/pic/confirm_access.png)
 
 - [项目地址](https://github.com/taoroot/oauth2-server)
 - [Spring Security 过滤器总体架构分析](./doc/filter.md)
@@ -18,8 +26,6 @@
 
 - JRE1.8
 - Mysql5.7
-
-
 
 启动流程:
 
