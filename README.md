@@ -2,6 +2,10 @@
 
 ![preview](./doc/pic/preview.png)
 
+演示地址: https://tao.flizi.cn
+
+账号: 123456, 密码: 123456
+
 ## 功能
 
 - OAuth2 密码登录,添加图形验证码 (开发完成)

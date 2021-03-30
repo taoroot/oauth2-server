@@ -1,6 +1,9 @@
 server:
   port: 8008
 
+spring:
+  profiles:
+    active: pro
 
 security:
   oauth2:
@@ -12,9 +15,6 @@ security:
       jwt:
         key-value: hello_world
 
-spring:
-  profiles:
-    active: pro
 
 logging:
   level:

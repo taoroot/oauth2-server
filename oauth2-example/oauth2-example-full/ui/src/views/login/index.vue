@@ -84,7 +84,7 @@
 
       <div class="tips">
         <el-row style="text-align: center;">
-          <el-col :span="4"><a referrerpolicy="origin" href="#" @click="oauth2Button('wx', 540)"> <svg-icon style="height: 16px;" icon-class="wx" /> 微信登录 </a></el-col>
+          <el-col><a referrerpolicy="origin" href="#" @click="oauth2Button('wx', 540)"> <svg-icon style="height: 16px;" icon-class="wx" /> OAUTH 2.0 授权登录 </a></el-col>
         </el-row>
       </div>
     </el-form>
@@ -114,8 +114,8 @@ export default {
     // }
     return {
       loginForm: {
-        username: 'user',
-        password: 'password',
+        username: '123456',
+        password: '123456',
         imageKey: Math.random().toString(36).substr(2),
         code: '',
         phone: '',
@@ -127,7 +127,7 @@ export default {
       },
       codeUrl: '',
       loading: false,
-      passwordType: 'password',
+      passwordType: 'text',
       redirect: undefined,
       smsSeconds: '获取验证码',
       smsEnable: true
