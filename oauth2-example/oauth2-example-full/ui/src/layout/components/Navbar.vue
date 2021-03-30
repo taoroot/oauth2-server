@@ -11,11 +11,6 @@
           <span class="user-title">{{ name }}<i class="el-icon-caret-bottom" style="margin-right: 6px;" /></span>
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown" v-if="name">
-          <router-link to="/profile/index">
-            <el-dropdown-item>
-              <span style="display:block;">个人中心</span>
-            </el-dropdown-item>
-          </router-link>
           <el-dropdown-item>
             <span style="display:block;" @click="logout">登出</span>
           </el-dropdown-item>

@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import { getToken } from '@/utils/auth'
 
 var Authorization = 'BASIC ' + btoa('mall-admin:secret')
 var VUE_APP_OAUTH2_API = process.env.VUE_APP_OAUTH2_API
@@ -46,13 +45,6 @@ export function getUserSocial() {
   })
 }
 
-export function logout() {
-  return request({
-    url: '/mall/logout',
-    method: 'post'
-  })
-}
-
 export function getUserProfile() {
   return request({
     url: '/upms/user_info',
@@ -83,7 +75,7 @@ export function resetPassword(data) {
   })
 }
 
-export function getSms({phone}) {
+export function getSms({ phone }) {
   return request({
     url: `https://auth.flizi.cn/sms?phone=${phone}`,
     method: 'post'

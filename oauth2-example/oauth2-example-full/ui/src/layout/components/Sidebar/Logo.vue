@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      title: 'T A O 后台系统',
+      title: '前端分离完整演示',
       logo: 'logo.jpg'
     }
   }

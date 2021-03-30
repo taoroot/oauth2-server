@@ -181,9 +181,9 @@ export default {
       this.codeUrl = process.env.VUE_APP_OAUTH2_API + 'captcha?key=' + this.loginForm.imageKey
     },
     oauth2Button(thirdpart, wdith) {
-      const redirect_uri = encodeURIComponent(window.location.origin + '/oauth2-callback.html')
-      const client_id = 'git'
-      const response_type = "code"
+      var redirect_uri = encodeURIComponent(window.location.origin + '/oauth2-callback.html')
+      var client_id = 'git'
+      var response_type = "code"
       const scope = 'all'
       const state = "1"
       var url = process.env.VUE_APP_OAUTH2_API + `oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=${response_type}&scope=${scope}&state=${state}`

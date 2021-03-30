@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.lang.reflect.Array;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -51,9 +51,8 @@ public class RestApiController {
         result.put("code", "SUCCESS");
         result.put("msg", "资源服务器(test)");
         HashMap<String, Object> data = new HashMap<>();
-        data.put("name", userId);
+        data.put("nickname", userId);
         result.put("data", data);
-        result.put("session", sessionRegistry.getAllPrincipals());
         return result;
     }
 
@@ -77,7 +76,7 @@ public class RestApiController {
                 clientProperties.getClientId(),
                 clientProperties.getClientSecret(),
                 code, redirectUri
-                );
+        );
         return getStringObjectMap(uri);
     }
 

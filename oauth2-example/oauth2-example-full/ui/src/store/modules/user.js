@@ -33,7 +33,6 @@ const actions = {
     const { username, password, imageKey, code, loginType, phone } = userInfo
     return new Promise((resolve, reject) => {
       console.log(loginType)
-      // 手机号登录
       if (loginType) {
         var data = new FormData()
         data.append('username', username.trim())
@@ -52,7 +51,7 @@ const actions = {
         }).catch(error => {
           reject(error)
         })
-      } else { // 手机号登录
+      } else {
         loginPhone({ phone: phone.trim(), smsCode: code }).then(response => {
           const { data } = response
           commit('SET_TOKEN', data)
@@ -65,12 +64,11 @@ const actions = {
     })
   },
 
-  oauth2CodeLogin({ commit }, formData ) {
+  oauth2CodeLogin({ commit }, formData) {
     return new Promise((resolve, reject) => {
-      oauth2CodeLogin( formData ).then(response => {
+      oauth2CodeLogin(formData).then(response => {
         const { access_token } = response
         commit('SET_TOKEN', access_token)
-        console.log('response', response)
         setToken(access_token)
         resolve()
       }).catch(error => {
@@ -85,7 +83,6 @@ const actions = {
     return new Promise((resolve, reject) => {
       getInfo().then(response => {
         const { nickname, avatar } = response
-
         commit('SET_NAME', nickname || '匿名用户')
         commit('SET_AVATAR', avatar)
         resolve(response)
@@ -98,14 +95,10 @@ const actions = {
   // user logout
   logout({ commit }) {
     return new Promise((resolve, reject) => {
-      logout().then(() => {
-        removeToken() // must remove  token  first
-        resetRouter()
-        commit('RESET_STATE')
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      removeToken()
+      resetRouter()
+      commit('RESET_STATE')
+      resolve()
     })
   },
 

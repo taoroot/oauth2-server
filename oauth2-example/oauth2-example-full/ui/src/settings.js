@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'TAO',
+  title: '前端分离完整演示',
 
   /**
    * @type {boolean} true | false

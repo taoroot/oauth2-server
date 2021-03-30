@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
     <div class="dashboard-text">账号: {{ name }}</div>
-    <el-button type="primary" @click.native.prevent="bindButton( 840)"> 绑定第三方账号 </el-button>
+    <el-button type="primary" @click.native.prevent="bindButton(840)"> 账号中心 </el-button>
   </div>
 </template>
 
@@ -27,8 +27,8 @@ export default {
   },
   methods: {
     bindButton(wdith) {
-      const url = process.env.VUE_APP_AUTH_API;
-      openWindow(url, 'TAO-X统一认证中心', wdith, 540)
+      const url = process.env.VUE_APP_OAUTH2_API;
+      openWindow(url, '统一认证中心', wdith, 540)
       this.loading = false
     },
   }

@@ -70,56 +70,9 @@ export const constantRoutes = [
       meta: { title: 'Dashboard', icon: 'dashboard' }
     }]
   },
-  {
-    path: '/profile',
-    component: Layout,
-    redirect: '/profile/index',
-    hidden: true,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/profile/index'),
-        name: 'Profile',
-        meta: { title: 'profile', icon: 'user', noCache: true }
-      }
-    ]
-  }
-
-  // {
-  //   path: '/system',
-  //   component: Layout,
-  //   redirect: '/authority/index',
-  //   meta: { title: '系统设置', icon: 'user' },
-  //   children: [
-  //     {
-  //       path: 'authority',
-  //       component: () => import('@/views/authority/index'),
-  //       name: 'Authority',
-  //       meta: { title: '权限管理', icon: 'authority' }
-  //     },
-  //     {
-  //       path: 'dept',
-  //       component: () => import('@/views/dept/index'),
-  //       name: 'Dept',
-  //       meta: { title: '部门管理', icon: 'dept' }
-  //     },
-  //     {
-  //       path: 'role',
-  //       component: () => import('@/views/role/index'),
-  //       name: 'Role',
-  //       meta: { title: '角色管理', icon: 'user' }
-  //     },
-  //     {
-  //       path: 'user',
-  //       component: () => import('@/views/user/index'),
-  //       name: 'User',
-  //       meta: { title: '用户管理', icon: 'user' }
-  //     }
-  //   ]
-  // }
 
   // 404 page must be placed at the end !!!
-  // { path: '*', redirect: '/404', hidden: false }
+  { path: '*', redirect: '/404', hidden: false }
 ]
 
 const createRouter = () => new Router({
