@@ -21,8 +21,7 @@ public class ResourceConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+        http.cors();
         http.authorizeRequests()
                 .antMatchers("/token").permitAll()
                 .anyRequest().authenticated();

@@ -65,15 +65,18 @@ const actions = {
     })
   },
 
-  oauth2CodeLogin({ commit }, data) {
-    const { code } = data
-    oauth2CodeLogin({ code }).then(response => {
-      const { data } = response
-      commit('SET_TOKEN', data)
-      setToken(data)
-      resolve()
-    }).catch(error => {
-      reject(error)
+  oauth2CodeLogin({ commit }, formData ) {
+    return new Promise((resolve, reject) => {
+      oauth2CodeLogin( formData ).then(response => {
+        const { access_token } = response
+        commit('SET_TOKEN', access_token)
+        console.log('response', response)
+        setToken(access_token)
+        resolve()
+      }).catch(error => {
+        console.log(error)
+        reject(error)
+      })
     })
   },
 

@@ -43,6 +43,20 @@ public class RestApiController {
         return result;
     }
 
+    @GetMapping(value = "/user_info")
+    public HashMap<String, Object> checkToken() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = (String) authentication.getPrincipal();
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("code", "SUCCESS");
+        result.put("msg", "资源服务器(test)");
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("name", userId);
+        result.put("data", data);
+        result.put("session", sessionRegistry.getAllPrincipals());
+        return result;
+    }
+
     @PostMapping(value = "token")
     public Map<String, Object> userBase(@RequestParam Map<String, String> params) {
         HashMap<String, Object> result = new HashMap<>();
@@ -52,11 +66,18 @@ public class RestApiController {
             result.put("msg", "无效CODE");
             return result;
         }
+        String redirectUri = params.get("redirect_uri");
+        if (!StringUtils.hasLength(redirectUri)) {
+            result.put("code", "ERROR");
+            result.put("msg", "无效 redirectUri");
+            return result;
+        }
 
         String uri = String.format(clientProperties.getTokenInfoUri(),
                 clientProperties.getClientId(),
                 clientProperties.getClientSecret(),
-                code);
+                code, redirectUri
+                );
         return getStringObjectMap(uri);
     }
 

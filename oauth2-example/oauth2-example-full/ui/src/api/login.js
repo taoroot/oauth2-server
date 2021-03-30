@@ -26,14 +26,8 @@ export function oauth2CodeLogin(params) {
 
 export function getInfo() {
   return request({
-    url: '/auth/oauth/check_token',
-    method: 'get',
-    params: {
-      token: getToken()
-    },
-    headers: {
-      Authorization: Authorization
-    }
+    url: '/user_info',
+    method: 'get'
   })
 }
 

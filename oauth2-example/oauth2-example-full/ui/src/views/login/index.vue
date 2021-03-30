@@ -209,10 +209,15 @@ export default {
       if (e.key === 'x-admin-oauth2-code') {
         var code = e.newValue
         const loginForm = {
-          code: code
+          code: code,
+          redirect_uri: window.location.origin + '/oauth2-callback.html'
         }
-        this.$store.dispatch('user/oauth2CodeLogin', loginForm)
-        this.$router.push({ path: this.redirect || '/' })
+        this.$store.dispatch('user/oauth2CodeLogin', loginForm).then(() => {
+            this.$router.push({ path: this.redirect || '/' })
+            this.loading = false
+          }).catch(() => {
+            this.loading = false
+          })
       }
     }
   }

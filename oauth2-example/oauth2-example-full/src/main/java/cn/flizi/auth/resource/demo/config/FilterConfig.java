@@ -1,20 +1,23 @@
 package cn.flizi.auth.resource.demo.config;
 
-import cn.flizi.auth.resource.demo.CorsFilter;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 public class FilterConfig {
 
     @Bean
-    @Order(Integer.MAX_VALUE -2)
-    public FilterRegistrationBean CorsFilter() {
-        final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-        registrationBean.setFilter(new CorsFilter());
-        registrationBean.addUrlPatterns("*");
-        return registrationBean;
+    public CorsFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedMethod("*");
+        config.addAllowedHeader("*");
+        config.addAllowedOrigin("*");
+        UrlBasedCorsConfigurationSource configSource = new UrlBasedCorsConfigurationSource();
+        configSource.registerCorsConfiguration("/**", config);
+        return new CorsFilter(configSource);
     }
+
 }
