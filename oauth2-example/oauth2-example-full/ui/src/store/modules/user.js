@@ -1,4 +1,4 @@
-import { login, logout, getInfo, loginPhone, oauth2CodeLogin } from '@/api/login'
+import { oauth2Login, logout, getInfo, loginPhone, oauth2CodeLogin } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -29,38 +29,32 @@ const mutations = {
 
 const actions = {
   // user login
-  login({ commit }, userInfo) {
-    const { username, password, imageKey, code, loginType, phone } = userInfo
+  oauth2Login({ commit }, userInfo) {
+    const { username, password, captchaKey, captchaCode, loginType, type, code } = userInfo
+    console.log(userInfo)
     return new Promise((resolve, reject) => {
-      console.log(loginType)
-      if (loginType) {
-        var data = new FormData()
-        data.append('username', username.trim())
-        data.append('password', password)
-        data.append('grant_type', 'password')
-        var params = {
-          imageKey: imageKey,
-          imageCode: code
-        }
-        login(data, params).then(response => {
-          console.log(response)
-          const { access_token, refresh_token } = response
-          commit('SET_TOKEN', access_token)
-          setToken(access_token)
-          resolve()
-        }).catch(error => {
-          reject(error)
-        })
-      } else {
-        loginPhone({ phone: phone.trim(), smsCode: code }).then(response => {
-          const { data } = response
-          commit('SET_TOKEN', data)
-          setToken(data)
-          resolve()
-        }).catch(error => {
-          reject(error)
-        })
-      }
+      var data = new FormData()
+      if (loginType) data.append('grant_type', loginType)
+      // grant_type = password
+      if (username) data.append('username', username.trim())
+      if (password) data.append('password', password.trim())
+      // grant_type = social
+      if (type) data.append('type', type.trim())
+      if (code) data.append('code', code.trim())
+
+      // captcha params
+      var params = {}
+      if (captchaKey) params.captchaKey = captchaKey
+      if (captchaCode) params.captchaCode = captchaCode
+
+      oauth2Login(data, params).then(response => {
+        const { access_token } = response
+        commit('SET_TOKEN', access_token)
+        setToken(access_token)
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
     })
   },
 

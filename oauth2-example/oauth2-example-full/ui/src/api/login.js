@@ -1,11 +1,17 @@
 import request from '@/utils/request'
 
-var Authorization = 'BASIC ' + btoa('mall-admin:secret')
+var Authorization = 'BASIC ' + btoa('git:secret')
 var VUE_APP_OAUTH2_API = process.env.VUE_APP_OAUTH2_API
 
-export function login(data, params) {
+/**
+ * OAuth2 密码登录
+ * @param {*} data 
+ * @param {*} params 
+ * @returns 
+ */
+export function oauth2Login(data, params) {
   return request({
-    url: VUE_APP_OAUTH2_API + 'auth/oauth/token',
+    url: VUE_APP_OAUTH2_API + 'oauth/token',
     method: 'post',
     headers: {
       Authorization: Authorization

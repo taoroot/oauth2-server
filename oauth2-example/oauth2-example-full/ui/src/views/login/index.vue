@@ -6,13 +6,13 @@
         <h3 class="title">前端分离完整演示</h3>
       </div>
 
-      <div style="margin-bottom: 20px;" class="tips" @click="loginForm.loginType = !loginForm.loginType">
-        <a :class="{'is-unactive':!loginForm.loginType}">密码登录</a>
+      <!-- <div style="margin-bottom: 20px;" class="tips">
+        <a :class="{'is-unactive':loginForm.loginType!=='password'}"  @click="loginForm.loginType='password'">密码登录</a>
         |
-        <a :class="{'is-unactive':loginForm.loginType}">短信登录</a>
-      </div>
+        <a :class="{'is-unactive':loginForm.loginType!=='social' }" @click="loginForm.loginType='social'">短信登录</a>
+      </div> -->
 
-      <el-form-item v-show="loginForm.loginType" prop="username">
+      <el-form-item v-show="loginForm.loginType==='password'" prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
@@ -27,7 +27,7 @@
         />
       </el-form-item>
 
-      <el-form-item v-show="loginForm.loginType" prop="password">
+      <el-form-item v-show="loginForm.loginType==='password'" prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
@@ -47,7 +47,7 @@
         </span>
       </el-form-item>
 
-      <el-form-item v-show="!loginForm.loginType" prop="phone">
+      <el-form-item v-show="loginForm.loginType==='social'" prop="phone">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
@@ -64,7 +64,8 @@
         <el-button :disabled="!smsEnable" type="info" size="small" @click="sendSms">{{ smsSeconds }}</el-button>
       </el-form-item>
 
-      <el-form-item prop="code">
+
+      <el-form-item prop="code" v-show="loginForm.loginType==='social'">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
@@ -75,7 +76,20 @@
           auto-complete="on"
           @keyup.enter.native="handleLogin"
         />
-        <span v-show="loginForm.loginType" class="show-code" @click="refreshCode">
+      </el-form-item>
+
+      <el-form-item prop="captchaKey" v-show="loginForm.loginType==='password'">
+        <span class="svg-container">
+          <svg-icon icon-class="password" />
+        </span>
+        <el-input
+          v-model="loginForm.captchaCode"
+          placeholder="验证码"
+          name="password"
+          auto-complete="on"
+          @keyup.enter.native="handleLogin"
+        />
+        <span class="show-code" @click="refreshCode">
           <el-image style="width: 90px; height: 85%; margin-top: 5px;" :src="codeUrl" />
         </span>
       </el-form-item>
@@ -84,7 +98,7 @@
 
       <div class="tips">
         <el-row style="text-align: center;">
-          <el-col><a referrerpolicy="origin" href="#" @click="oauth2Button('wx', 540)"> <svg-icon style="height: 16px;" icon-class="wx" /> OAUTH 2.0 授权登录 </a></el-col>
+          <el-col><a referrerpolicy="origin" href="#" @click="oauth2Button('wx', 540)"> <svg-icon style="height: 16px;" icon-class="wx" /> 点击使用 OAuth 2.0 授权登录 [支持微信登录] </a></el-col>
         </el-row>
       </div>
     </el-form>
@@ -116,10 +130,10 @@ export default {
       loginForm: {
         username: '123456',
         password: '123456',
-        imageKey: Math.random().toString(36).substr(2),
+        captchaKey: Math.random().toString(36).substr(2),
         code: '',
         phone: '',
-        loginType: true
+        loginType: 'password'
       },
       loginRules: {
         // username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -177,8 +191,8 @@ export default {
       })
     },
     refreshCode() {
-      this.loginForm.imageKey = Math.random().toString(36).substr(2)
-      this.codeUrl = process.env.VUE_APP_OAUTH2_API + 'captcha?key=' + this.loginForm.imageKey
+      this.loginForm.captchaKey = Math.random().toString(36).substr(2)
+      this.codeUrl = process.env.VUE_APP_OAUTH2_API + 'captcha?key=' + this.loginForm.captchaKey
     },
     oauth2Button(thirdpart, wdith) {
       var redirect_uri = encodeURIComponent(window.location.origin + '/oauth2-callback.html')
@@ -193,10 +207,11 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
+          this.$store.dispatch('user/oauth2Login', this.loginForm).then(() => {
             this.$router.push({ path: this.redirect || '/' })
             this.loading = false
-          }).catch(() => {
+          }).catch((error) => {
+            console.log(error)
             this.loading = false
           })
         } else {
