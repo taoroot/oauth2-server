@@ -12,8 +12,9 @@
 
     <!--模块-->
     <modules>
+        <module>oauth2-boot</module>
         <module>oauth2-server</module>
-        <module>oauth2-example</module>
+        <module>oauth2-server-example</module>
     </modules>
 
     <!--属性-->

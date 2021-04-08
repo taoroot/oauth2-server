@@ -1,0 +1,128 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="/base.css">
+    <link rel="stylesheet" href="../public/base.css">
+    <title th:text="'登录 - ' + ${app_name}">登录 - XXX</title>
+    <style>
+        .Social {
+            margin-top: 30px;
+            width: 100%;
+            display: flex;
+        }
+
+        .ResetPassword {
+            color: #0366d6;
+            font-size: small;
+            display: contents;
+        }
+
+        .CaptchaImage {
+            height: 33px;
+            padding-top: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="Wrapper">
+        <div class="Header">
+            <div class="Header-title" th:text="${app_name}">XXX</div>
+        </div>
+        <form class="Form" method="post" action="/login">
+            <div class="Form-login">
+                <label class="Label">
+                    <input class="Input" name="username" type="tel" placeholder="输入手机号" value="">
+                </label>
+                <label class="Label">
+                    <input class="Input" name="password" type="password" placeholder="输入密码" value="">
+                    <a href="reset" class="ResetPassword">忘记密码?</a>
+                </label>
+                <label>
+                    <input class="Input" id="captcha_key" name="captchaKey" type="text" value="" hidden>
+                </label>
+                <label class="Label">
+                    <input class="Input" name="captchaCode" type="text" placeholder="输入验证码" value="">
+                    <img class="CaptchaImage" id="captcha_image" onclick="refreshCaptcha()"/>
+                </label>
+                <div th:if="${param.error != null && session.SPRING_SECURITY_LAST_EXCEPTION != null}">
+                    <p style="color: #ff0000"
+                       th:if="${not #strings.isEmpty(session.SPRING_SECURITY_LAST_EXCEPTION.message)}"
+                       th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}">登录失败</p>
+                </div>
+                <div th:if="${param.signup != null}">
+                    <p style="color: green">更新成功,请登录</p>
+                </div>
+                <div th:if="${param.logout != null}">
+                    <p style="color: green">退出成功!</p>
+                </div>
+                <div>
+                    <button class="Form-submitButton" type="submit">登录</button>
+                </div>
+                <div class="Tools">
+                    <a href="signup" class="Button" >注册用户</a>
+                </div>
+            </div>
+
+            <div>
+                <div class="Social">
+                    <div style="margin: 0 auto;" onclick="wxClick()">
+                        <svg t="1612425565647" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" p-id="1127" width="45" height="45"
+                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <defs>
+                                <style type="text/css"></style>
+                            </defs>
+                            <path
+                                d="M544.059897 959.266898h-64.949141c-228.633593 0-415.697442-187.063849-415.697442-415.697442v-64.949141c0-228.633593 187.063849-415.697442 415.697442-415.697442h64.949141c228.633593 0 415.697442 187.063849 415.697442 415.697442v64.949141C959.756315 772.203049 772.692466 959.266898 544.059897 959.266898z"
+                                fill="#2DC100" p-id="1128"></path>
+                            <path
+                                d="M618.871102 424.812069c-52.6789 2.760395-98.49572 18.754507-135.696546 54.89766-37.587854 36.50356-54.743053 81.262707-50.047514 136.728622-20.586238-2.580191-39.34177-5.366183-58.19969-6.965492-6.552866-0.516038-14.292415 0.258019-19.786584 3.353224-18.316285 10.318716-35.858512 22.030941-56.703793 35.085479 3.818068-17.284208 6.294847-32.505287 10.680148-47.029101 3.173021-10.732366 1.702721-16.691379-8.152175-23.65687-63.256659-44.73355-89.905323-111.652647-69.963108-180.584703 18.470891-63.720479 63.798295-102.417201 125.376806-122.539619 84.100917-27.500536 178.52055 0.567232 229.651335 67.409538 18.733006 24.012159 30.112467 52.935895 32.763306 83.275665L618.871102 424.812069zM737.231222 753.7854c-16.691379-7.429312-31.989249-18.574304-48.241381-20.302622-16.252132-1.702721-33.330539 7.687331-50.305534 9.416673-51.724639 5.288368-98.0319-9.132033-136.263778-44.526725-72.646712-67.331723-62.275777-170.522981 21.799542-225.730878 74.736462-49.015438 184.324956-32.659894 237.003856 35.342474 45.971427 59.386373 40.55405 138.198922-15.55589 188.066232-16.252132 14.447022-22.108756 26.313853-11.686627 45.32638 1.909546 3.508855 2.140944 7.94535 3.250836 12.382869L737.231222 753.7854zM376.397651 403.348361c0.516038-12.640888-10.422129-23.991681-23.373254-24.353112-13.025869-0.533444-24.017278 9.593805-24.550722 22.619674-0.003072 0.078839-0.006143 0.158702-0.008191 0.237542-0.512967 12.869215 9.503704 23.719327 22.372918 24.232294 0.238565 0.009215 0.477131 0.015358 0.715696 0.017406C364.663926 426.584415 375.730078 416.448974 376.397651 403.348361zM502.909946 378.995249c-13.00232 0.258019-23.991681 11.350793-23.733662 23.99168 0.280545 13.104708 11.131681 23.50124 24.23639 23.220696 0.038908-0.001024 0.077815-0.002048 0.116723-0.003072 12.865119 0.104436 23.379398-10.239877 23.483834-23.104996 0.002048-0.278497 0-0.556994-0.008192-0.835491-0.109556-12.96546-10.708817-23.386565-23.673252-23.277009C503.191515 378.989105 503.050218 378.991153 502.909946 378.995249zM547.334283 569.640648c10.628954 0 19.348361-8.332379 19.760986-18.832323 0.384981-10.920761-8.15627-20.086582-19.077031-20.471563-0.176108-0.006143-0.352217-0.010239-0.529349-0.011262-11.041579 0.069624-19.937095 9.076743-19.867471 20.118322 0.001024 0.08703 0.002048 0.175084 0.003072 0.262115C528.092406 561.263219 536.764714 569.595597 547.334283 569.640648zM669.743869 530.351097c-10.452845 0.086006-19.011503 8.337498-19.477371 18.781128-0.570304 10.670933 7.617707 19.782488 18.28864 20.352793 0.310237 0.016382 0.620475 0.025597 0.930712 0.027645 10.654551 0 19.090342-8.07436 19.47737-18.703314 0.528325-10.772298-7.776409-19.934023-18.548706-20.462348-0.223207-0.011263-0.447438-0.01843-0.670645-0.021501V530.351097z"
+                                fill="#FFFFFF" p-id="1129"></path>
+                        </svg>
+                    </div>
+                </div>
+                <a style="text-align: center; color: #1AAD19; font-size: 13px;margin-top:6px; display: block;" onclick="wxClick()">
+                    微信登录
+                </a>
+            </div>
+        </form>
+        <div class="Footer"><a href="https://beian.miit.gov.cn/" th:text="${beian}">浙ICP备xxxx号</a></div>
+    </div>
+</body>
+
+<script>
+    var wx_mp = '[[${wx_mp}]]';
+    var wx_open = '[[${wx_open}]]';
+    var wx_auto = [[${wx_auto}]]
+    function refreshCaptcha() {
+        var captcha_id = document.getElementById("captcha_id")
+        var key = new Date().getTime()
+        document.getElementById("captcha_image").src="/captcha?key=" + key
+        document.getElementById("captcha_key").value = key
+    }
+    refreshCaptcha()
+    function wxClick() {
+        var ua = navigator.userAgent.toLowerCase();
+        var isWx = ua.match(/MicroMessenger/i)=="micromessenger"
+        if (isWx) {
+            window.sessionStorage.setItem("type", "WX_MP")
+            window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wx_mp}&redirect_uri=${encodeURIComponent(window.location.origin)}%2Fauth-redirect&response_type=code&scope=snsapi_userinfo&state=authorize&connect_redirect=1#wechat_redirect`
+        } else {
+            window.sessionStorage.setItem("type", "WX_OPEN")
+            window.location.href = `https://open.weixin.qq.com/connect/qrconnect?appid=${wx_open}&redirect_uri=${encodeURIComponent(window.location.origin)}%2Fauth-redirect&response_type=code&scope=snsapi_login&state=authorize&connect_redirect=1#wechat_redirect`
+        }
+    }
+    if (wx_auto === true) {
+        wxClick()
+    }
+</script>
+
+</html>

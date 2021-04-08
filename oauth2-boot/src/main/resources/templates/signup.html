@@ -1,0 +1,110 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,viewport-fit=cover">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="/base.css">
+    <link rel="stylesheet" href="../public/base.css">
+    <title th:text="'用户注册 - ' + ${app_name}">用户注册 - XXX</title>
+
+    <style>
+        .Button2 {
+            color:#333;
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+<div id="Wrapper">
+    <div class="Header">
+        <div class="Header-title">用户注册</div>
+        <div class="Header-subTitle" th:text="${app_name}">XXX</div>
+    </div>
+    <form class="Form" method="post" action="/signup">
+        <div class="Form-login">
+            <label class="Label">
+                <input id="phone" class="Input" name="phone" type="tel" placeholder="输入手机号" value="">
+            </label>
+            <label class="Label">
+                <input class="Input" name="code" type="text" placeholder="输入验证码" value="">
+                <button id="get_code" class="Button Button2" type="button" onclick="getCode()">获取验证码</button>
+            </label>
+            <label class="Label">
+                <input id="password1" oninput="checkPassword(event)" onporpertychange="checkPassword(event)"  class="Input" name="password1" type="password" placeholder="设置登录密码" value="">
+            </label>
+            <label class="Label">
+                <input id="password" oninput="checkPassword(event)" onporpertychange="checkPassword(event)"  class="Input" name="password" type="password" placeholder="确认登录密码" value="">
+            </label>
+            <div>
+                <p id="tips" style="color: #ff0000"></p>
+            </div>
+            <div th:if="${error != null}">
+                <p style="color: #ff0000" th:text="${error}">参数错误</p>
+            </div>
+            <button id="submitButton" class="Form-submitButton" type="submit">提交</button>
+            <div class="Tools">
+                <a href="login" class="Button">前往登录</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="Footer"><a href="https://beian.miit.gov.cn/" th:text="${beian}">浙ICP备xxxx号</a></div>
+</body>
+
+<script>
+    function checkPassword() {
+        var password1 = document.getElementById("password1").value
+        var password = document.getElementById("password").value
+        console.log(password, password1)
+        if (password1 !== password || !password) {
+            document.getElementById("tips").innerHTML = '密码不一致'
+            return false
+        } else {
+            document.getElementById("tips").innerHTML = ''
+            return true
+        }
+    }
+
+
+    function getCode() {
+        var phone = document.getElementById("phone").value
+        if(!(/^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/.test(phone))){
+            alert("手机号格式错误")
+            return
+        }
+
+        document.getElementById("get_code").disabled = true
+        var total = 60
+        var timer = setInterval(()=> {
+            document.getElementById("get_code").innerHTML = `已发送(${total}s)`
+            total--;
+            if(total < 1) {
+                document.getElementById("get_code").disabled = false
+                clearInterval(timer)
+                document.getElementById("get_code").innerHTML = `获取验证码`
+            }
+        }, 1000)
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState === 4){
+                if(xhr.status === 200){
+                    console.log(JSON.parse(xhr.responseText))
+                } else{
+                    alert('失败！')
+                }
+            }
+        }
+        xhr.open('POST', '/sms?phone=' + phone);
+        xhr.send();
+
+    }
+</script>
+
+</html>
