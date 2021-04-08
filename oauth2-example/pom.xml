@@ -16,5 +16,6 @@
         <module>oauth2-example-client</module>
         <module>oauth2-example-resource</module>
         <module>oauth2-example-full</module>
+        <module>oauth2-example-rbac</module>
     </modules>
 </project>
