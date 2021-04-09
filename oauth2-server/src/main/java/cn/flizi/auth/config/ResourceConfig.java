@@ -17,7 +17,7 @@ public class ResourceConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.requestMatchers().antMatchers("/user_base", "/user_info");
+        http.requestMatchers().antMatchers("/user_base", "/user_info", "/api/**");
         super.configure(http);
     }
 

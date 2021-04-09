@@ -1,0 +1,11 @@
+import com.baomidou.mybatisplus.extension.service.IService;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface ${className}Service extends CustomIService<${className}> {
+
+}

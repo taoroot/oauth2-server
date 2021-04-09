@@ -1,0 +1,67 @@
+-- !!!!!! 请全选执行 !!!!!!
+-- !!!!!! 请全选执行 !!!!!!
+-- !!!!!! 请全选执行 !!!!!!
+
+-- 默认菜单生成在根节点
+
+-- 权限表
+INSERT INTO sys_authority (authority, name, path, method)
+VALUES ('${preName}:${nextName}:add', '${comments}新增', '/${preName}/${nextName}', 'POST');
+set @auth_add = @@identity;
+
+INSERT INTO sys_authority (authority, name, path, method)
+VALUES ('${preName}:${nextName}:del', '${comments}删除', '/${preName}/${nextName}', 'DELETE');
+set @auth_del = @@identity;
+
+INSERT INTO sys_authority (authority, name, path, method)
+VALUES ('${preName}:${nextName}:update', '${comments}更新', '/${preName}/${nextName}', 'PUT');
+set @auth_update = @@identity;
+
+INSERT INTO sys_authority (authority, name, path, method)
+VALUES ('${preName}:${nextName}:page', '${comments}分页', '/${preName}/${nextName}/page', 'GET');
+set @auth_page = @@identity;
+
+-- 菜单,默认生成再根节点,需要绑定到 /{preName} 所在目录
+set @menu_parent_id = (select id from sys_menu where `path` = '/${preName}');
+
+-- 菜单表
+-- 菜单,默认生成再根节点,需要绑定到 /{preName} 所在目录
+INSERT INTO sys_menu (parent_id, path, title, name, component, always_show, redirect, icon, weight, type, breadcrumb, hidden, authority)
+VALUES (-1, '/${preName}/${nextName}', '${comments}', '${nextName}', '${preName}/${className}/index', '0', '', 'example', 0, '0', 0, '0', '');
+set @parentId = @@identity;
+
+-- 功能
+INSERT INTO sys_menu (parent_id, path, title, name, component, always_show, redirect, icon, weight, type, breadcrumb,
+                      hidden, authority)
+VALUES ((SELECT @parentId), null, '${comments}创建', null, '', '0', null, null, 0, '1', 0, '0', '${preName}:${nextName}:add');
+set @menu_add = @@identity;
+
+INSERT INTO sys_menu (parent_id, path, title, name, component, always_show, redirect, icon, weight, type, breadcrumb,
+                      hidden, authority)
+VALUES ((SELECT @parentId), null, '${comments}删除', null, '', '0', null, null, 1, '1', 0, '0', '${preName}:${nextName}:del');
+set @menu_del = @@identity;
+
+INSERT INTO sys_menu (parent_id, path, title, name, component, always_show, redirect, icon, weight, type, breadcrumb,
+                      hidden, authority)
+VALUES ((SELECT @parentId), null, '${comments}更新', null, '', '0', null, null, 2, '1', 0, '0', '${preName}:${nextName}:update');
+set @menu_update = @@identity;
+
+
+-- 菜单和权限关联表
+INSERT INTO sys_menu_authority (menu_id, authority_id) VALUES ((SELECT @parentId), (SELECT @auth_page));
+INSERT INTO sys_menu_authority (menu_id, authority_id) VALUES ((SELECT @menu_add), (SELECT @auth_add));
+INSERT INTO sys_menu_authority (menu_id, authority_id) VALUES ((SELECT @menu_del), (SELECT @auth_del));
+INSERT INTO sys_menu_authority (menu_id, authority_id) VALUES ((SELECT @menu_update), (SELECT @auth_update));
+
+
+-- 菜单和超管角色关联表 超管角色id=1
+set @admin_role_id = 1;
+INSERT INTO sys_role_menu (menu_id, role_id) VALUES ((SELECT @parentId), (SELECT @admin_role_id));
+INSERT INTO sys_role_menu (menu_id, role_id) VALUES ((SELECT @menu_add), (SELECT @admin_role_id));
+INSERT INTO sys_role_menu (menu_id, role_id) VALUES ((SELECT @menu_del), (SELECT @admin_role_id));
+INSERT INTO sys_role_menu (menu_id, role_id) VALUES ((SELECT @menu_update), (SELECT @admin_role_id));
+
+-- !!!!!! 请全选执行 !!!!!!
+-- !!!!!! 请全选执行 !!!!!!
+-- !!!!!! 请全选执行 !!!!!!
+

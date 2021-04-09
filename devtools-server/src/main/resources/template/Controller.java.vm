@@ -1,0 +1,58 @@
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.taoroot.common.core.utils.R;
+import com.github.taoroot.common.security.annotation.Log;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.security.access.prepost.PreAuthorize;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+import com.github.taoroot.common.security.annotation.Log;
+
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Api(tags = "${comments}")
+@RestController
+@AllArgsConstructor
+public class ${className}Controller {
+
+    private final ${className}Service ${classname}Service;
+
+    @Log("${comments}分页")
+    @ApiOperation("${comments}分页")
+    @GetMapping("/${preName}/${nextName}/page")
+    @PreAuthorize("hasAuthority('${preName}:${nextName}:page')" )
+    public R ${classname}Page(Page<${className}> page, ${className} ${classname}) {
+        return R.ok(${classname}Service.page(page, Wrappers.query(${classname})));
+    }
+
+
+    @Log("${comments}新增" )
+    @PostMapping("/${preName}/${nextName}")
+    @PreAuthorize("hasAuthority('${preName}:${nextName}:add')" )
+    public R ${classname}Save(@RequestBody ${className} ${classname}) {
+        return R.ok(${classname}Service.save(${classname}));
+    }
+
+
+    @Log("${comments}修改" )
+    @PutMapping("/${preName}/${nextName}")
+    @PreAuthorize("hasAuthority('${preName}:${nextName}:update')" )
+    public R ${classname}Update(@RequestBody ${className} ${classname}) {
+        return R.ok(${classname}Service.updateById(${classname}));
+    }
+
+
+    @Log("${comments}删除" )
+    @DeleteMapping("/${preName}/${nextName}")
+    @PreAuthorize("hasAuthority('${preName}:${nextName}:del')")
+    public R ${classname}Remove(@RequestParam("ids") List<$pk.attrType>  ${pk.lowerAttrName}s) {
+        return R.ok(${classname}Service.removeByIds(${pk.lowerAttrName}s));
+    }
+
+}

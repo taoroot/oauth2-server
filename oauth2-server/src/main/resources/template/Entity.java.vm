@@ -1,0 +1,41 @@
+
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Data
+@TableName("${tableName}")
+@EqualsAndHashCode(callSuper = true)
+public class ${className} extends Model<${className}> {
+
+    private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+
+#if($column.columnName == $pk.columnName)
+    @TableId(type = IdType.AUTO)
+#end
+
+#if($column.attrType == "LocalDateTime")
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
+#end
+    @ApiModelProperty(value = "$column.comments"#if($column.hidden), hidden = $column.hidden#end)
+    private $column.attrType $column.lowerAttrName;
+#end
+
+}
