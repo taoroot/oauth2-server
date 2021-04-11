@@ -6,9 +6,8 @@ import cn.flizi.auth.mapper.SmsMapper;
 import cn.flizi.auth.mapper.UserMapper;
 import cn.flizi.auth.properties.SocialProperties;
 import cn.flizi.auth.service.UserService;
-import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -38,9 +37,7 @@ public class MvcController {
     @Autowired
     private UserService userService;
 
-    /**
-     * 首页
-     */
+    @ApiOperation("首页")
     @GetMapping(value = "/")
     public String index(Model model, @RequestParam(defaultValue = "false") Boolean sms) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -50,50 +47,40 @@ public class MvcController {
         if (StringUtils.hasLength(user.getWxOpenid()) || StringUtils.hasLength(user.getWxUnionid())) {
             model.addAttribute("wx", "微信: 已绑定");
         } else {
-            model.addAttribute("wx", "微信: 未绑定" );
+            model.addAttribute("wx", "微信: 未绑定");
         }
         return "index";
     }
 
-    /**
-     * 登录页
-     */
+    @ApiOperation("登录页")
     @GetMapping(value = "/login")
-    public String login(Model model, @RequestParam(defaultValue = "false") Boolean wx) {
-        model.addAttribute("wx_auto", wx);
+    public String login(Model model) {
         return "login";
     }
 
-    /**
-     * 注册界面
-     */
+    @ApiOperation("注册界面")
     @GetMapping(value = "/signup")
     public String signup(Model model) {
         return "signup";
     }
 
-    /**
-     * 绑定界面
-     */
+
+    @ApiOperation("绑定界面")
     @GetMapping(value = "/bind")
     public String bindSmsPost(@RequestParam(defaultValue = "false") Boolean wx, Model model) {
         model.addAttribute("wx_auto", wx);
         return "bind";
     }
 
-    /**
-     * 重置密码
-     *
-     * @return
-     */
+
+    @ApiOperation("重置密码")
     @GetMapping(value = "/reset")
     public String reset(Model model) {
         return "reset";
     }
 
-    /**
-     * 授权页面
-     */
+
+    @ApiOperation("授权页面")
     @GetMapping("/oauth/confirm_access")
     public String confirm(HttpServletRequest request, HttpSession session, Model model) {
         AuthorizationRequest authorizationRequest = (AuthorizationRequest) session.getAttribute("authorizationRequest");
@@ -101,29 +88,23 @@ public class MvcController {
             model.addAttribute("client_id", authorizationRequest.getClientId());
             model.addAttribute("scopes", authorizationRequest.getScope());
         }
-        // 授权访问
         return "confirm_access";
     }
 
-    /**
-     * 微信 OAuth2 回调界面
-     */
+    @ApiOperation("微信 OAuth2 回调界面")
     @GetMapping(value = "/auth-redirect")
     public String authRedirect(Model model) {
         return "auth-redirect";
     }
 
-    /**
-     * 复用微信登录
-     */
+    @ApiOperation("复用微信登录")
     @GetMapping(value = "/weixin-code")
     public String weixinCode(Model model) {
         return "weixin-code";
     }
 
-    /**
-     * 表单提交-手机号注册
-     */
+
+    @ApiOperation("表单提交-手机号注册")
     @PostMapping(value = "/signup")
     public String signup(@RequestParam Map<String, String> params, Model model) {
         String phone = params.get("phone");
@@ -173,9 +154,8 @@ public class MvcController {
         return "redirect:login?signup";
     }
 
-    /**
-     * 微信绑定
-     */
+
+    @ApiOperation("微信绑定")
     @GetMapping(value = "/bind-wx-mp")
     public String bindWxMp(@RequestParam Map<String, String> params, Model model) {
         String code = params.get("code");
@@ -198,9 +178,7 @@ public class MvcController {
         return "redirect:/";
     }
 
-    /**
-     * 绑定开放平台
-     */
+    @ApiOperation("绑定开放平台")
     @GetMapping(value = "/bind-wx-open")
     public String bindWxOpen(@RequestParam Map<String, String> params, Model model) {
         String code = params.get("code");
@@ -208,22 +186,17 @@ public class MvcController {
             model.addAttribute("error", "参数错误");
             return "redirect:/";
         }
-
         String unionId = userService.wxOpenHandler(code);
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-
         if (!StringUtils.hasLength(unionId)) {
             model.addAttribute("error", "参数错误");
             return "bind";
         }
-
         userMapper.updateWxUnionId(userId, unionId);
         return "redirect:/";
     }
 
-    /**
-     * 绑定手机号码
-     */
+    @ApiOperation("绑定手机号码")
     @PostMapping(value = "/bind-sms")
     public String bindSms(@RequestParam Map<String, String> params, Model model) {
         String phone = params.get("phone");
