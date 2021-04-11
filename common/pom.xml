@@ -8,13 +8,21 @@
         <artifactId>oauth2-parent</artifactId>
         <version>0.1.0</version>
     </parent>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
-    <artifactId>example</artifactId>
+    <artifactId>common</artifactId>
 
-    <modules>
-        <module>oauth2-all</module>
-        <module>oauth2-client</module>
-        <module>oauth2-resource</module>
-    </modules>
+    <dependencies>
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

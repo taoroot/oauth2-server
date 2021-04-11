@@ -5,15 +5,16 @@
     <!--版本信息-->
     <groupId>cn.flizi</groupId>
     <artifactId>oauth2-parent</artifactId>
-    <version>0.0.1</version>
+    <version>0.1.0</version>
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
     <description>FLIZI-AUTH</description>
 
     <!--模块-->
     <modules>
-        <module>oauth2-server</module>
-        <module>devtools-server</module>
+        <module>common</module>
+        <module>oauth2</module>
+        <module>extension</module>
         <module>example</module>
     </modules>
 
@@ -22,14 +23,39 @@
         <spring-boot.version>2.4.2</spring-boot.version>
         <hutool.version>4.4.5</hutool.version>
         <lombok.version>1.18.10</lombok.version>
+        <mybatis-plus.version>3.3.2</mybatis-plus.version>
+        <hutool.version>5.3.0</hutool.version>
+        <swagger-ui.version>1.5.22</swagger-ui.version>
+        <springfox-swagger>3.0.0</springfox-swagger>
 
         <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+        <maven-plugin.version>3.8.1</maven-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
 
     <!--依赖管理-->
     <dependencyManagement>
@@ -40,6 +66,57 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-extension</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-annotation</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger-ui.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-boot-starter</artifactId>
+                <version>${springfox-swagger}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.swagger</groupId>
+                        <artifactId>swagger-models</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-models</artifactId>
+                <version>1.5.21</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${springfox-swagger}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.flizi</groupId>
+                <artifactId>common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.flizi</groupId>
+                <artifactId>extension</artifactId>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -71,7 +148,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>${maven-plugin.version}</version>
                 <configuration>
                     <target>${maven.compiler.target}</target>
                     <source>${maven.compiler.source}</source>
@@ -82,6 +159,7 @@
         </plugins>
     </build>
 
+    <!-- 阿里云镜像 -->
     <pluginRepositories>
         <pluginRepository>
             <id>aliyun-plugin</id>
