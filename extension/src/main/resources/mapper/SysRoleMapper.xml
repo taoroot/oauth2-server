@@ -5,12 +5,8 @@
     <resultMap id="SysRole" type="cn.flizi.ext.rbac.entity.SysRole">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="scope" jdbcType="VARCHAR" property="scope" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
-        <result column="description" jdbcType="VARCHAR" property="description"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-        <collection column="{roleId=id}" property="menus" select="selectAuthoritiesByRole">
-        </collection>
     </resultMap>
 
     <select id="selectAuthoritiesByRole" resultType="java.lang.Integer">

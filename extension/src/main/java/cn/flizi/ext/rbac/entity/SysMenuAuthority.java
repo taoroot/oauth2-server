@@ -4,23 +4,28 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
-@TableName("sys_role")
+@TableName("sys_menu_authority")
 @EqualsAndHashCode(callSuper = true)
-public class SysRole extends Model<SysRole> {
+@AllArgsConstructor
+@NoArgsConstructor
+public class SysMenuAuthority extends Model<SysMenuAuthority> {
+
     private static final long serialVersionUID = 1L;
 
     @TableId(type = IdType.AUTO)
     private Integer id;
 
-    private String name;
+    private Integer menuId;
 
-    private String remark;
+    private Integer authorityId;
 
     private LocalDateTime createTime;
 

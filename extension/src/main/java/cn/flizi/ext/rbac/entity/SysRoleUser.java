@@ -10,17 +10,17 @@ import lombok.EqualsAndHashCode;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("sys_role")
+@TableName("sys_role_user")
 @EqualsAndHashCode(callSuper = true)
-public class SysRole extends Model<SysRole> {
+public class SysRoleUser extends Model<SysRoleUser> {
     private static final long serialVersionUID = 1L;
 
     @TableId(type = IdType.AUTO)
     private Integer id;
 
-    private String name;
+    private Integer roleId;
 
-    private String remark;
+    private Integer userId;
 
     private LocalDateTime createTime;
 

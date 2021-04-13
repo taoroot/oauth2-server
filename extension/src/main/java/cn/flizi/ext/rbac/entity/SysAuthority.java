@@ -7,22 +7,22 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.time.LocalDateTime;
-
-@Data
-@TableName("sys_role")
+@TableName("sys_authority")
 @EqualsAndHashCode(callSuper = true)
-public class SysRole extends Model<SysRole> {
-    private static final long serialVersionUID = 1L;
+@Data
+public class SysAuthority extends Model<SysAuthority> {
+
+    public static final int MENU = 0;
+    public static final int FUNCTION = 1;
 
     @TableId(type = IdType.AUTO)
     private Integer id;
 
     private String name;
 
-    private String remark;
+    private String method;
 
-    private LocalDateTime createTime;
+    private String path;
 
-    private LocalDateTime updateTime;
+    private String authority;
 }
