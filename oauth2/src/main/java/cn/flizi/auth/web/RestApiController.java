@@ -6,6 +6,7 @@ import cn.flizi.auth.mapper.SmsMapper;
 import cn.flizi.auth.mapper.UserMapper;
 import cn.flizi.auth.properties.CaptchaProperties;
 import cn.flizi.auth.properties.SmsProperties;
+import cn.flizi.auth.security.AuthUser;
 import cn.flizi.auth.security.CaptchaService;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.LineCaptcha;
@@ -72,8 +73,7 @@ public class RestApiController {
     @PreAuthorize("#oauth2.hasScope('all')")
     @GetMapping(value = "/user_info")
     public HashMap<String, Object> userInfo() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userId = (String) authentication.getPrincipal();
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userMapper.loadUserByUserId(userId);
         HashMap<String, Object> result = new HashMap<>();
         result.put("code", "SUCCESS");
@@ -81,6 +81,8 @@ public class RestApiController {
         result.put("name", userId);
         result.put("email", user.getEmail());
         result.put("phone", user.getPhone());
+        AuthUser authentication = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        result.put("tenant_id", authentication.getTenant());
         return result;
     }
 

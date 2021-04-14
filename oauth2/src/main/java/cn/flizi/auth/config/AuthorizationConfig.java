@@ -3,10 +3,12 @@ package cn.flizi.auth.config;
 import cn.flizi.auth.security.AuthUser;
 import cn.flizi.auth.security.CaptchaService;
 import cn.flizi.auth.security.CustomWebResponseExceptionTranslator;
+import cn.flizi.auth.security.JwtUserAuthenticationConverter;
 import cn.flizi.auth.security.social.SocialCodeTokenGranter;
 import cn.flizi.auth.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.autoconfigure.security.oauth2.authserver.AuthorizationServerProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -127,7 +129,15 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
     }
 
     /**
-     * 配置JWT的内容增强器
+     * 配置JWT的内容增强器, 加 tenant 字段到 jwt token中,
+     * 返回json内容中添加user_id
+     * {
+     * "access_token": "tokenxxx", // tenant在生成的token中
+     * "token_type": "bearer",
+     * "expires_in": 43187,
+     * "scope": "all",
+     * "user_id": "20", // 显示 user_id
+     * }
      */
     public TokenEnhancer tokenEnhancer() {
         TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
@@ -146,12 +156,13 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
         return enhancerChain;
     }
 
+    @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
         DefaultAccessTokenConverter accessTokenConverter = (DefaultAccessTokenConverter) jwtAccessTokenConverter
                 .getAccessTokenConverter();
-        accessTokenConverter.setUserTokenConverter(new DefaultUserAuthenticationConverter());
-        jwtAccessTokenConverter.setSigner(new MacSigner(authorizationServerProperties.getJwt().getKeyValue()));
+        accessTokenConverter.setUserTokenConverter(new JwtUserAuthenticationConverter());
+        jwtAccessTokenConverter.setSigningKey(authorizationServerProperties.getJwt().getKeyValue());
         return jwtAccessTokenConverter;
     }
 

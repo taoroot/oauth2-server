@@ -14,6 +14,8 @@ public class AuthUser extends User {
 
     private String phone;
 
+    private Integer tenant;
+
     public void setPhone(String phone) {
         this.phone = phone;
     }
@@ -22,6 +24,12 @@ public class AuthUser extends User {
         return phone;
     }
 
+    public Integer getTenant() {
+        return tenant;
+    }
+
+
+
     public AuthUser(String username, String password, boolean enabled, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, enabled, true, true, true, authorities);
     }
@@ -29,4 +37,10 @@ public class AuthUser extends User {
     public AuthUser(String username, Collection<? extends GrantedAuthority> authorities) {
         super(username, "N/A", true, true, true, true, authorities);
     }
+
+    public AuthUser(String username, Integer tenant, Collection<? extends GrantedAuthority> authorities) {
+        super(username, "N/A", true, true, true, true, authorities);
+        this.tenant = tenant;
+    }
+
 }
