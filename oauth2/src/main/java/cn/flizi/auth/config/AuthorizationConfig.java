@@ -7,6 +7,7 @@ import cn.flizi.auth.security.JwtUserAuthenticationConverter;
 import cn.flizi.auth.security.social.SocialCodeTokenGranter;
 import cn.flizi.auth.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.security.oauth2.authserver.AuthorizationServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,6 +45,7 @@ import java.util.*;
 @SuppressWarnings("deprecation")
 @Configuration
 @EnableAuthorizationServer
+@AllArgsConstructor
 public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
 
     private final AuthenticationManager authenticationManager;
@@ -56,17 +58,6 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
 
     private final CaptchaService captchaService;
 
-    public AuthorizationConfig(AuthenticationManager authenticationManager,
-                               DataSource dataSource,
-                               UserService userDetailsService,
-                               AuthorizationServerProperties authorizationServerProperties,
-                               CaptchaService captchaService) {
-        this.authenticationManager = authenticationManager;
-        this.dataSource = dataSource;
-        this.userDetailsService = userDetailsService;
-        this.authorizationServerProperties = authorizationServerProperties;
-        this.captchaService = captchaService;
-    }
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
