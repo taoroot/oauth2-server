@@ -14,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.jwt.crypto.sign.MacSigner;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
@@ -26,7 +25,6 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -60,7 +58,9 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
 
     public AuthorizationConfig(AuthenticationManager authenticationManager,
                                DataSource dataSource,
-                               UserService userDetailsService, AuthorizationServerProperties authorizationServerProperties, CaptchaService captchaService) {
+                               UserService userDetailsService,
+                               AuthorizationServerProperties authorizationServerProperties,
+                               CaptchaService captchaService) {
         this.authenticationManager = authenticationManager;
         this.dataSource = dataSource;
         this.userDetailsService = userDetailsService;
@@ -142,6 +142,7 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
     public TokenEnhancer tokenEnhancer() {
         TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
         List<TokenEnhancer> delegates = new ArrayList<>();
+        delegates.add(jwtAccessTokenConverter());
         delegates.add((accessToken, authentication) -> {
             if (authentication.getPrincipal() instanceof AuthUser) {
                 AuthUser principal = (AuthUser) authentication.getPrincipal();
@@ -151,7 +152,6 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
             }
             return accessToken;
         });
-        delegates.add(jwtAccessTokenConverter());
         enhancerChain.setTokenEnhancers(delegates);
         return enhancerChain;
     }
