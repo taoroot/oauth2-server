@@ -1,19 +1,12 @@
 package cn.flizi.auth.config;
 
-import cn.flizi.auth.security.AuthUser;
-import cn.flizi.auth.security.CaptchaService;
-import cn.flizi.auth.security.CustomWebResponseExceptionTranslator;
-import cn.flizi.auth.security.JwtUserAuthenticationConverter;
+import cn.flizi.auth.security.*;
 import cn.flizi.auth.security.social.SocialCodeTokenGranter;
-import cn.flizi.auth.service.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.security.oauth2.authserver.AuthorizationServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -33,10 +26,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -58,10 +48,12 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
 
     private final CaptchaService captchaService;
 
+    private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.authenticationEntryPoint(AuthorizationConfig::commence);
+        security.authenticationEntryPoint(restAuthenticationEntryPoint);
         security.allowFormAuthenticationForClients();
     }
 
@@ -155,18 +147,5 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
         accessTokenConverter.setUserTokenConverter(new JwtUserAuthenticationConverter());
         jwtAccessTokenConverter.setSigningKey(authorizationServerProperties.getJwt().getKeyValue());
         return jwtAccessTokenConverter;
-    }
-
-    private static void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-        if (!response.isCommitted()) {
-            response.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            response.setStatus(HttpServletResponse.SC_OK);
-
-            HashMap<String, Object> result = new HashMap<>();
-            result.put("code", "FAIL");
-            result.put("msg", authException.getMessage());
-            response.getWriter().write(new ObjectMapper().writeValueAsString(result));
-        }
     }
 }

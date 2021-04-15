@@ -10,28 +10,49 @@ import cn.flizi.ext.rbac.service.SysMenuService;
 import cn.flizi.ext.rbac.service.SysRoleService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 @AllArgsConstructor
 @Api(tags = "扩展接口,不需要在话请 pom.xml 中移除依赖 extension 依赖")
-public class RestApi {
+public class ExtRestApi {
 
     private final SysRoleService sysRoleService;
     private final SysAuthorityService sysAuthorityService;
     private final SysMenuService sysMenuService;
 
+    @Data
+    @ApiModel
+    static class SysRoleAdd {
+        @ApiModelProperty(value = "角色标识", required = true, example = "USER_ADMIN")
+        @NotEmpty
+        private String name;
+        @ApiModelProperty(value = "角色备注", required = true, example = "管理员")
+        @NotEmpty
+        private String remark;
+    }
+
     @Log("角色创建")
     @ApiOperation("角色创建")
     @PreAuthorize("hasAuthority('sys:role:add')")
     @PostMapping("/sys/role")
-    public R sysRoleAdd(@RequestBody SysRole sysRole) {
+    public R sysRoleAdd(@RequestBody @Valid SysRoleAdd body) {
+        SysRole sysRole = new SysRole();
+        BeanUtils.copyProperties(body, sysRole);
         return R.ok(sysRoleService.saveOrUpdate(sysRole));
     }
 
@@ -154,4 +175,6 @@ public class RestApi {
     public R sysMenuAuthorityDel(@RequestParam("menuId") Integer menuId, @RequestBody List<Integer> ids) {
         return R.ok(sysMenuService.removeAuthorityByMenu(menuId, ids));
     }
+
+
 }

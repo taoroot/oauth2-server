@@ -53,6 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         SocialCodeAuthenticationFilter socialCodeAuthenticationFilter = new SocialCodeAuthenticationFilter();
         socialCodeAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
+
         http
                 .csrf().disable()
                 .formLogin()
