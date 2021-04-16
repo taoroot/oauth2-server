@@ -34,3 +34,4 @@ build/
 application-pro.yaml
 .env.production
 node_modules
+vuejs

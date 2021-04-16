@@ -55,3 +55,27 @@ CREATE TABLE `sys_authority` (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `sys_authority_index` (`authority`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='权限表';
+
+
+
+DROP TABLE IF EXISTS `sys_menu`;
+CREATE TABLE `sys_menu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
+  `parent_id` int(11) NOT NULL COMMENT '父菜单ID',
+  `path` varchar(128) DEFAULT NULL,
+  `title` varchar(32) DEFAULT NULL COMMENT 'the name show in sidebar and breadcrumb (recommend set)',
+  `name` varchar(350) DEFAULT NULL COMMENT 'the name is used by <keep-alive> (must set!!!)',
+  `component` varchar(64) DEFAULT NULL,
+  `always_show` varchar(255) DEFAULT '0' COMMENT '0-开启，1- 关闭',
+  `redirect` varchar(32) DEFAULT NULL COMMENT 'if set noRedirect will no redirect in the breadcrumb',
+  `icon` varchar(32) DEFAULT NULL COMMENT '图标',
+  `weight` int(11) NOT NULL DEFAULT '1' COMMENT '排序值',
+  `type` char(1) NOT NULL DEFAULT '0' COMMENT '菜单类型 （0菜单 1按钮）',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `breadcrumb` int(1) DEFAULT '0',
+  `hidden` varchar(255) DEFAULT '0' COMMENT '0-开启，1- 关闭',
+  `authority` varchar(100) DEFAULT NULL,
+  `no_cache` int(1) DEFAULT '0',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1127 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='菜单表';

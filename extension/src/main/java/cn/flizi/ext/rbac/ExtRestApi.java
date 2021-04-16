@@ -2,6 +2,10 @@ package cn.flizi.ext.rbac;
 
 import cn.flizi.core.annition.Log;
 import cn.flizi.core.util.R;
+import cn.flizi.ext.rbac.dto.SysMenuAdd;
+import cn.flizi.ext.rbac.dto.SysMenuUpdate;
+import cn.flizi.ext.rbac.dto.SysRoleAdd;
+import cn.flizi.ext.rbac.dto.SysRoleUpdate;
 import cn.flizi.ext.rbac.entity.SysAuthority;
 import cn.flizi.ext.rbac.entity.SysMenu;
 import cn.flizi.ext.rbac.entity.SysRole;
@@ -10,41 +14,28 @@ import cn.flizi.ext.rbac.service.SysMenuService;
 import cn.flizi.ext.rbac.service.SysRoleService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 @AllArgsConstructor
-@Api(tags = "扩展接口,不需要在话请 pom.xml 中移除依赖 extension 依赖")
+@Api(tags = "扩展接口")
 public class ExtRestApi {
 
     private final SysRoleService sysRoleService;
     private final SysAuthorityService sysAuthorityService;
     private final SysMenuService sysMenuService;
 
-    @Data
-    @ApiModel
-    static class SysRoleAdd {
-        @ApiModelProperty(value = "角色标识", required = true, example = "USER_ADMIN")
-        @NotEmpty
-        private String name;
-        @ApiModelProperty(value = "角色备注", required = true, example = "管理员")
-        @NotEmpty
-        private String remark;
-    }
 
     @Log("角色创建")
     @ApiOperation("角色创建")
@@ -53,7 +44,7 @@ public class ExtRestApi {
     public R sysRoleAdd(@RequestBody @Valid SysRoleAdd body) {
         SysRole sysRole = new SysRole();
         BeanUtils.copyProperties(body, sysRole);
-        return R.ok(sysRoleService.saveOrUpdate(sysRole));
+        return R.ok(sysRoleService.save(sysRole));
     }
 
     @Log("角色删除")
@@ -68,7 +59,10 @@ public class ExtRestApi {
     @ApiOperation("角色更新")
     @PreAuthorize("hasAuthority('sys:role:update')")
     @PutMapping("/sys/role")
-    public R sysRoleUpdate(@RequestBody SysRole sysRole) {
+    @ApiIgnore
+    public R sysRoleUpdate(@RequestBody @Valid SysRoleUpdate body) {
+        SysRole sysRole = new SysRole();
+        BeanUtils.copyProperties(body, sysRole);
         return R.ok(sysRoleService.updateById(sysRole));
     }
 
@@ -76,16 +70,17 @@ public class ExtRestApi {
     @ApiOperation("角色分页")
     @PreAuthorize("hasAuthority('sys:role:page')")
     @GetMapping("/sys/role/page")
-    public R sysRolePage(Page<SysRole> page) {
-        return R.ok(sysRoleService.page(page));
+    @ApiParam("page")
+    public R sysRolePage(@RequestParam Integer current, @RequestParam Integer size) {
+        return R.ok(sysRoleService.page(new Page<>(current, size)));
     }
 
     @Log(value = "权限分页")
     @ApiOperation("权限分页")
     @PreAuthorize("hasAuthority('sys:authority:page')")
     @GetMapping("/sys/authority/page")
-    public R sysAuthorityPage(Page<SysAuthority> page) {
-        return R.ok(sysAuthorityService.page(page));
+    public R sysAuthorityPage(@RequestParam Integer current, @RequestParam Integer size) {
+        return R.ok(sysAuthorityService.page(new Page<>(current, size)));
     }
 
     @Log(value = "菜单树")
@@ -105,7 +100,7 @@ public class ExtRestApi {
     }
 
 
-    @Log("菜单删除")
+    @Log("菜单强删")
     @ApiOperation("菜单强删")
     @PreAuthorize("hasAuthority('sys:menu:delforce')")
     @DeleteMapping("/sys/menu/force")
@@ -128,7 +123,9 @@ public class ExtRestApi {
     @ApiOperation("菜单创建")
     @PreAuthorize("hasAuthority('sys:menu:add')")
     @PostMapping("/sys/menu")
-    public R sysMenuAdd(@RequestBody SysMenu sysMenu) {
+    public R sysMenuAdd(@RequestBody SysMenuAdd body) {
+        SysMenu sysMenu = new SysMenu();
+        BeanUtils.copyProperties(body, sysMenu);
         return R.ok(sysMenuService.save(sysMenu));
     }
 
@@ -137,11 +134,11 @@ public class ExtRestApi {
     @ApiOperation("菜单更新")
     @PreAuthorize("hasAuthority('sys:menu:update')")
     @PutMapping("/sys/menu")
-    public R sysMenuUpdate(@RequestBody SysMenu sysMenu) {
-        return R.ok(sysMenuService.saveOrUpdate(sysMenu));
-
+    public R sysMenuUpdate(@RequestBody SysMenuUpdate body) {
+        SysMenu sysMenu = new SysMenu();
+        BeanUtils.copyProperties(body, sysMenu);
+        return R.ok(sysMenuService.updateById(sysMenu));
     }
-
 
     @Log("菜单排序")
     @ApiOperation("菜单排序")
@@ -175,6 +172,4 @@ public class ExtRestApi {
     public R sysMenuAuthorityDel(@RequestParam("menuId") Integer menuId, @RequestBody List<Integer> ids) {
         return R.ok(sysMenuService.removeAuthorityByMenu(menuId, ids));
     }
-
-
 }
