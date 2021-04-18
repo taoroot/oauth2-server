@@ -14,6 +14,7 @@
 `注意!!: 这里将手机号作为用户账号使用`
 
 ![](./doc/pic/demo-full-login.png)
+![](./doc/pic/rbac.png)
 
 ## 功能
 
