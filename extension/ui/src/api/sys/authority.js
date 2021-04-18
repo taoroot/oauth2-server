@@ -6,7 +6,7 @@ import request from '@/utils/request'
  */
 export const getMenuAuthoritys = (params) => {
   return request({
-    url: '/sys/menu/authority/page',
+    url: '/api/sys/menu/authority/page',
     method: 'get',
     params
   })

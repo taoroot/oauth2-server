@@ -78,7 +78,7 @@ export const constantRoutes = [
       path: 'menu',
       name: 'menu',
       component: () => import('@/views/menu/index'),
-      meta: { title: 'menu', icon: 'menu' }
+      meta: { title: '权限管理', icon: 'menu' }
     }]
   }
 

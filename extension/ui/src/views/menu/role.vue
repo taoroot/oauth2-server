@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-form :inline="true" :model="search" size="mini">
+      <el-form :inline="true" size="mini">
         <el-form-item>
-          <el-button type="primary" icon="el-icon-refresh" @click="tablePage" />
+          <el-button type="primary" icon="el-icon-refresh" @click="tableGetPage" />
           <el-button type="primary" icon="el-icon-plus" @click="tableCreate({})" />
-          <el-button type="primary" icon="el-icon-delete" @click="tablePage" />
+          <el-button type="primary" icon="el-icon-delete" @click="tableGetPage" />
         </el-form-item>
       </el-form>
     </div>
@@ -78,7 +78,7 @@ export default {
       table: {
         data: [],
         current: this.$route.query.page ? Number.parseInt(this.$route.query.page) : 1,
-        size: this.$route.query.pageSize ? Number.parseInt(this.$route.query.pageSize) : 5,
+        size: -1,
         total: 0,
         loading: false
       },

@@ -8,11 +8,11 @@
         </el-col>
         <el-col :span="10">
           <el-divider>菜单列表</el-divider>
-          <my-menu />
+          <my-menu @menuId="menuChange" />
         </el-col>
         <el-col :span="10">
           <el-divider>权限列表</el-divider>
-          <my-authority />
+          <my-authority :menu-id="menuId" />
         </el-col>
       </el-row>
     </el-card>
@@ -27,6 +27,16 @@ import MyMenu from './menu'
 export default {
   name: 'Menu',
   components: { MyAuthority, MyRole, MyMenu },
-  props: {}
+  props: {},
+  data() {
+    return {
+      menuId: -1
+    }
+  },
+  methods: {
+    menuChange(val) {
+      this.menuId = val
+    }
+  }
 }
 </script>

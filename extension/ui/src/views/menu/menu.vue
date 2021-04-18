@@ -247,6 +247,7 @@ export default {
     },
     tableData(row) {
       this.authority.menuId = row.id
+      this.$emit('menuId', row.id)
     },
     tableEdit(row) {
       this.tableData(row)

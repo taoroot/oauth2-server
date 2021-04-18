@@ -77,6 +77,7 @@ export default {
   },
   watch: {
     menuId(val) {
+      console.log(val)
       this.tablePage()
     }
   },
