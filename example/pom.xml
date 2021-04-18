@@ -13,7 +13,6 @@
     <artifactId>example</artifactId>
 
     <modules>
-        <module>oauth2-all</module>
         <module>oauth2-client</module>
         <module>oauth2-resource</module>
     </modules>
