@@ -22,6 +22,8 @@ public class SysRole extends Model<SysRole> {
 
     private String remark;
 
+    private Boolean isLock = false;
+
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;

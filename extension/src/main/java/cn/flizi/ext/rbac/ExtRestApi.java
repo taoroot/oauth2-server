@@ -8,7 +8,6 @@ import cn.flizi.ext.rbac.dto.SysRoleAdd;
 import cn.flizi.ext.rbac.dto.SysRoleUpdate;
 import cn.flizi.ext.rbac.entity.SysAuthority;
 import cn.flizi.ext.rbac.entity.SysMenu;
-import cn.flizi.ext.rbac.entity.SysRole;
 import cn.flizi.ext.rbac.service.SysAuthorityService;
 import cn.flizi.ext.rbac.service.SysMenuService;
 import cn.flizi.ext.rbac.service.SysRoleService;
@@ -38,13 +37,11 @@ public class ExtRestApi {
 
 
     @Log("角色创建")
-    @ApiOperation("角色创建")
+    @ApiOperation(value = "角色创建", notes = "menus是当前角色的所有菜单id")
     @PreAuthorize("hasAuthority('sys:role:add')")
     @PostMapping("/sys/role")
     public R sysRoleAdd(@RequestBody @Valid SysRoleAdd body) {
-        SysRole sysRole = new SysRole();
-        BeanUtils.copyProperties(body, sysRole);
-        return R.ok(sysRoleService.save(sysRole));
+        return R.ok(sysRoleService.saveRole(body));
     }
 
     @Log("角色删除")
@@ -56,14 +53,12 @@ public class ExtRestApi {
     }
 
     @Log("角色更新")
-    @ApiOperation("角色更新")
+    @ApiOperation(value = "角色更新", notes = "menus是当前角色的所有菜单id")
     @PreAuthorize("hasAuthority('sys:role:update')")
     @PutMapping("/sys/role")
     @ApiIgnore
     public R sysRoleUpdate(@RequestBody @Valid SysRoleUpdate body) {
-        SysRole sysRole = new SysRole();
-        BeanUtils.copyProperties(body, sysRole);
-        return R.ok(sysRoleService.updateById(sysRole));
+        return R.ok(sysRoleService.updateRole(body));
     }
 
     @Log(value = "角色分页")
@@ -73,14 +68,6 @@ public class ExtRestApi {
     @ApiParam("page")
     public R sysRolePage(@RequestParam Integer current, @RequestParam Integer size) {
         return R.ok(sysRoleService.page(new Page<>(current, size)));
-    }
-
-    @Log(value = "权限分页")
-    @ApiOperation("权限分页")
-    @PreAuthorize("hasAuthority('sys:authority:page')")
-    @GetMapping("/sys/authority/page")
-    public R sysAuthorityPage(@RequestParam Integer current, @RequestParam Integer size) {
-        return R.ok(sysAuthorityService.page(new Page<>(current, size)));
     }
 
     @Log(value = "菜单树")
@@ -146,6 +133,15 @@ public class ExtRestApi {
     @PutMapping("/sys/menu/sort")
     public R sysMenuSort(Integer menuId, Integer index) {
         return R.ok(sysMenuService.sort(menuId, index));
+    }
+
+
+    @Log(value = "权限分页")
+    @ApiOperation("权限分页")
+    @PreAuthorize("hasAuthority('sys:authority:page')")
+    @GetMapping("/sys/authority/page")
+    public R sysAuthorityPage(@RequestParam Integer current, @RequestParam Integer size) {
+        return R.ok(sysAuthorityService.page(new Page<>(current, size)));
     }
 
 

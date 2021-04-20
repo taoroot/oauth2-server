@@ -15,4 +15,7 @@ public class SysRoleAdd {
     @ApiModelProperty(value = "角色备注", required = true, example = "管理员")
     @NotEmpty
     private String remark;
+    @ApiModelProperty(value = "菜单ID数组", required = true, example = "[1,2,3,4]")
+    @NotEmpty
+    private Integer[] menus;
 }
