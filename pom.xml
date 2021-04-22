@@ -15,6 +15,7 @@
         <module>oauth-2.0</module>
         <module>oauth-2.1</module>
         <module>tenant</module>
+        <module>gateway</module>
         <module>resource/upms</module>
         <module>common/common-bom</module>
         <module>common/common-core</module>
