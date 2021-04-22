@@ -4,23 +4,24 @@
     <modelVersion>4.0.0</modelVersion>
     <!--版本信息-->
     <groupId>cn.flizi</groupId>
-    <artifactId>oauth2-parent</artifactId>
-    <version>0.1.0</version>
+    <artifactId>cloud-parent</artifactId>
+    <version>0.0.1</version>
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
-    <description>FLIZI-AUTH</description>
+    <description>FLIZI-CLOUD</description>
 
     <!--模块-->
     <modules>
-        <module>common</module>
-        <module>oauth2</module>
-        <module>extension</module>
-        <module>example</module>
     </modules>
 
     <!--属性-->
     <properties>
-        <spring-boot.version>2.4.2</spring-boot.version>
+        <!-- spring 体系 -->
+        <spring-boot.version>2.4.3</spring-boot.version>
+        <spring-cloud.version>2020.0.1</spring-cloud.version>
+        <spring-cloud-alibaba.version>2.2.5.RELEASE</spring-cloud-alibaba.version>
+
+        <!-- 其他工具 -->
         <hutool.version>4.4.5</hutool.version>
         <lombok.version>1.18.10</lombok.version>
         <mybatis-plus.version>3.3.2</mybatis-plus.version>
@@ -28,6 +29,7 @@
         <swagger-ui.version>1.5.22</swagger-ui.version>
         <springfox-swagger>3.0.0</springfox-swagger>
 
+        <!-- 编译工具 -->
         <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -51,9 +53,10 @@
         </dependency>
     </dependencies>
 
-    <!--依赖管理-->
+    <!-- 依赖管理 -->
     <dependencyManagement>
         <dependencies>
+            <!-- spring boot 相关依赖 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -61,60 +64,28 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- spring cloud 相关依赖 -->
             <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-extension</artifactId>
-                <version>${mybatis-plus.version}</version>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
+            <!-- spring cloud alibaba 相关依赖 -->
             <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-annotation</artifactId>
-                <version>${mybatis-plus.version}</version>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${swagger-ui.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-boot-starter</artifactId>
-                <version>${springfox-swagger}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>io.swagger</groupId>
-                        <artifactId>swagger-models</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-models</artifactId>
-                <version>1.5.21</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${springfox-swagger}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.flizi</groupId>
-                <artifactId>common</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.flizi</groupId>
-                <artifactId>extension</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+
+
         </dependencies>
     </dependencyManagement>
 
+    <!-- 编译管理 -->
     <build>
         <finalName>${project.name}</finalName>
         <resources>
@@ -141,6 +112,7 @@
         </pluginManagement>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-plugin.version}</version>
                 <configuration>
