@@ -14,12 +14,14 @@
     <modules>
         <module>oauth-2.0</module>
         <module>oauth-2.1</module>
+        <module>account</module>
         <module>tenant</module>
         <module>gateway</module>
         <module>resource/upms</module>
         <module>common/common-bom</module>
         <module>common/common-core</module>
-        <module>common/common-security</module>
+        <module>common/common-security/common-security-core</module>
+        <module>common/common-security/common-security-resource</module>
         <module>common/common-tenant</module>
     </modules>
 

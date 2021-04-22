@@ -40,8 +40,14 @@
 
             <dependency>
                 <groupId>cn.flizi.cloud</groupId>
-                <artifactId>common-security</artifactId>
+                <artifactId>common-security-core</artifactId>
                 <version>${cloud.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.flizi.cloud</groupId>
+                <artifactId>common-security-resource</artifactId>
+                <version>0.0.1</version>
             </dependency>
 
 
@@ -50,6 +56,23 @@
                 <artifactId>spring-security-oauth2-authorization-server</artifactId>
                 <version>${authorization.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-extension</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-annotation</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>cn.hutool</groupId>
