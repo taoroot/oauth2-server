@@ -8,25 +8,27 @@
         <groupId>cn.flizi.cloud</groupId>
         <artifactId>cloud-parent</artifactId>
         <version>0.0.1</version>
-        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>common-security</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>account</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>cn.flizi.cloud</groupId>
-            <artifactId>common-core</artifactId>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

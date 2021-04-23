@@ -12,7 +12,6 @@
     </parent>
 
     <artifactId>common-security-resource</artifactId>
-    <version>0.0.1</version>
 
 
     <dependencies>
