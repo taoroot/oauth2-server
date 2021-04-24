@@ -14,12 +14,20 @@
 
     <dependencies>
         <dependency>
+            <groupId>cn.flizi.cloud</groupId>
+            <artifactId>common-security-resource</artifactId>
+        </dependency>
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.flizi.cloud</groupId>
+            <artifactId>common-core</artifactId>
         </dependency>
     </dependencies>
 

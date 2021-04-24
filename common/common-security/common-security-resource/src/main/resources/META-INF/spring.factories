@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cn.flizi.cloud.common.security.resource.ResourceConfig

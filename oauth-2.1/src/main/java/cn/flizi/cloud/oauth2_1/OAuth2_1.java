@@ -1,4 +1,4 @@
-package cn.flizi.cloud.account;
+package cn.flizi.cloud.oauth2_1;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @SpringBootApplication
-public class Account {
+public class OAuth2_1 {
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -21,8 +21,8 @@ public class Account {
         return new InMemoryUserDetailsManager(userDetails);
     }
 
+
     public static void main(String[] args) {
-        SpringApplication.run(Account.class);
+        SpringApplication.run(OAuth2_1.class);
     }
 }
-

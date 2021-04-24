@@ -1,6 +1,5 @@
 package cn.flizi.cloud.auth.config;
 
-import cn.flizi.cloud.auth.security.AuthUser;
 import cn.flizi.cloud.auth.security.CustomWebResponseExceptionTranslator;
 import cn.flizi.cloud.auth.security.JwtUserAuthenticationConverter;
 import cn.flizi.cloud.auth.security.RestAuthenticationEntryPoint;
@@ -10,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -24,9 +22,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 
 import javax.sql.DataSource;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Security Security OAuth 配置
