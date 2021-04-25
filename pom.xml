@@ -12,8 +12,7 @@
 
     <!--模块-->
     <modules>
-        <module>oauth-2.0</module>
-        <module>oauth-2.1</module>
+        <module>oauth2</module>
         <module>account</module>
         <module>tenant</module>
         <module>gateway</module>

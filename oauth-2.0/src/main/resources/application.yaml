@@ -5,11 +5,6 @@ spring:
     password: root
     url: jdbc:mysql://127.0.0.1:3306/auth?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
 
-security:
-  oauth2:
-    authorization:
-      jwt:
-        key-value: hello_world
 
 logging:
   level:

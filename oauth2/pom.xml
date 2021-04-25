@@ -10,51 +10,30 @@
         <version>0.0.1</version>
     </parent>
 
-    <artifactId>oauth-2.0</artifactId>
+    <artifactId>oauth-2.1</artifactId>
     <name>${project.artifactId}</name>
-    <description>基于旧版认证中心写</description>
+    <description>基于新版认证中心写的</description>
 
     <dependencies>
-        <dependency>
-            <groupId>cn.flizi.cloud</groupId>
-            <artifactId>common-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.security.oauth.boot</groupId>
-            <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+            <groupId>org.springframework.security.experimental</groupId>
+            <artifactId>spring-security-oauth2-authorization-server</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.security.oauth</groupId>
-            <artifactId>spring-security-oauth2</artifactId>
-            <version>2.5.0.RELEASE</version>
-        </dependency>
         <dependency>
             <groupId>cn.flizi.cloud</groupId>
             <artifactId>common-security-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.nimbusds</groupId>
-            <artifactId>nimbus-jose-jwt</artifactId>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -65,4 +44,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
