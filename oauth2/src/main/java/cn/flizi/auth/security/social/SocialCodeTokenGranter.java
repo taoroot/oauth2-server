@@ -16,7 +16,6 @@ import java.util.Map;
 /**
  * 该方法是扩展了Security OAuth来实现的 Rest API 请求
  */
-@SuppressWarnings("deprecation")
 public class SocialCodeTokenGranter extends AbstractTokenGranter {
 
     private static final String GRANT_TYPE = "social";

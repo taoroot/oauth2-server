@@ -32,7 +32,6 @@ import java.util.*;
 /**
  * Security Security OAuth 配置
  */
-@SuppressWarnings("deprecation")
 @Configuration
 @EnableAuthorizationServer
 @AllArgsConstructor

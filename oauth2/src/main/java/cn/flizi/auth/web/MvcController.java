@@ -33,13 +33,11 @@ public class MvcController {
     @Autowired
     private SmsMapper smsMapper;
     @Autowired
-    private SocialProperties socialProperties;
-    @Autowired
     private UserService userService;
 
     @ApiOperation("首页")
     @GetMapping(value = "/")
-    public String index(Model model, @RequestParam(defaultValue = "false") Boolean sms) {
+    public String index(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userMapper.loadUserByUserId(authentication.getName());
         model.addAttribute("phone", "手机号: " + user.getPhone());
@@ -72,13 +70,11 @@ public class MvcController {
         return "bind";
     }
 
-
     @ApiOperation("重置密码")
     @GetMapping(value = "/reset")
     public String reset(Model model) {
         return "reset";
     }
-
 
     @ApiOperation("授权页面")
     @GetMapping("/oauth/confirm_access")

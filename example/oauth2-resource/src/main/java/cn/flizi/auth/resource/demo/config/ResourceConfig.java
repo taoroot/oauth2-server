@@ -7,7 +7,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 
 @EnableResourceServer
-@SuppressWarnings("deprecation")
 @Configuration
 public class ResourceConfig extends ResourceServerConfigurerAdapter {
 

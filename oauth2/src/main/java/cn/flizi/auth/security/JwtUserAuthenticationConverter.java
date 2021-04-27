@@ -9,7 +9,6 @@ import java.util.Map;
 /**
  * 生成 JWT 的时候加入 tenant 字段, 解析jwt的时候, 将 tenant放入 Authentication中
  */
-@SuppressWarnings("deprecation")
 public class JwtUserAuthenticationConverter extends DefaultUserAuthenticationConverter {
 
     public static final String TENANT_ID = "tenant";

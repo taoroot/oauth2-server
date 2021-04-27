@@ -7,7 +7,6 @@ import org.springframework.security.oauth2.provider.error.WebResponseExceptionTr
 
 import java.util.HashMap;
 
-@SuppressWarnings("deprecation")
 public class CustomWebResponseExceptionTranslator implements WebResponseExceptionTranslator<OAuth2Exception> {
 
     @Override
