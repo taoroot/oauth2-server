@@ -2,7 +2,10 @@
 
 ![preview](./doc/pic/preview.png)
 
-前后端演示地址: https://tao.flizi.cn
+~~前后端演示地址: https://tao.flizi.cn~~ 
+
+服务器没内存了, 所以把服务停了. 不提供演示了. 
+推荐个人另一个项目, 基于 OAuth2 的 SSO 登录和登出 https://gitee.com/taoroot/zhiyi
 
 - 支持密码模式演示
     - 输入账号 123456, 密码: 123456, 以及验证码后点击登录
